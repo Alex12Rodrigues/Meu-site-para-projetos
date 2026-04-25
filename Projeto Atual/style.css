@@ -195,7 +195,7 @@ body.dark-mode .app-shell {
 .return-presentation {
   position: absolute;
   top: 0;
-  right: 66px;
+  left: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -782,9 +782,9 @@ table tbody tr:hover {
   }
 
   .return-presentation {
-    right: 0;
+    left: 0;
     top: 58px;
-    width: 100%;
+    width: auto;
   }
 
   .actions {
