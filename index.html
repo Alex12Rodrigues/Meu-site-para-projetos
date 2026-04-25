@@ -17,11 +17,32 @@
         window.location.replace("./Projeto%20Atual/index.html");
       }
 
-      const THEME_KEY = "alex_presentation_theme";
-      const savedTheme = localStorage.getItem(THEME_KEY);
-      const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+      const THEME_KEY = "alex_site_theme";
+      const LEGACY_THEME_KEYS = ["alex_presentation_theme", "winston_theme"];
 
-      function applyTheme(isLight) {
+      function readSavedTheme() {
+        const shared = localStorage.getItem(THEME_KEY);
+        if (shared === "light" || shared === "dark") {
+          return shared;
+        }
+
+        for (const legacyKey of LEGACY_THEME_KEYS) {
+          const legacy = localStorage.getItem(legacyKey);
+          if (legacy === "light" || legacy === "dark") {
+            return legacy;
+          }
+        }
+
+        return "dark";
+      }
+
+      function persistTheme(theme) {
+        localStorage.setItem(THEME_KEY, theme);
+        LEGACY_THEME_KEYS.forEach((key) => localStorage.setItem(key, theme));
+      }
+
+      function applyTheme(theme) {
+        const isLight = theme === "light";
         document.body.classList.toggle("light-theme", isLight);
         const icon = document.getElementById("themeIcon");
         if (icon) {
@@ -31,17 +52,18 @@
 
       window.addEventListener("DOMContentLoaded", function () {
         const toggle = document.getElementById("themeToggle");
-        const isLight = savedTheme ? savedTheme === "light" : prefersLight;
-        applyTheme(isLight);
+        let currentTheme = readSavedTheme();
+        applyTheme(currentTheme);
+        persistTheme(currentTheme);
 
         if (!toggle) {
           return;
         }
 
         toggle.addEventListener("click", function () {
-          const nextIsLight = !document.body.classList.contains("light-theme");
-          applyTheme(nextIsLight);
-          localStorage.setItem(THEME_KEY, nextIsLight ? "light" : "dark");
+          currentTheme = currentTheme === "dark" ? "light" : "dark";
+          applyTheme(currentTheme);
+          persistTheme(currentTheme);
         });
       });
     })();
@@ -470,7 +492,7 @@
         <div>
           <h1 id="hero-title" class="welcome-animated">Boas-vindas</h1>
           <p class="lead">
-            Aqui ficam os projetos que estou desenvolvendo na faculdade. Eu uso este domínio como apresentação para meus professores.
+            Criei esse site para armazenar meus projetos tanto da faculdade quanto de outros trabalhos. Também utilizo o domínio para apresentações de projetos.
           </p>
 
           <div class="actions">

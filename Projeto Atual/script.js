@@ -8,25 +8,56 @@ const activeModuleText = byId("moduloAtivo");
   if (!themeToggle) {
     return;
   }
-  const THEME_KEY = "winston_theme";
-  
-  // Verifica se existe preferência salva
-  const savedTheme = localStorage.getItem(THEME_KEY);
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const isDarkMode = savedTheme ? savedTheme === "dark" : prefersDark;
+  const THEME_KEY = "alex_site_theme";
+  const LEGACY_THEME_KEYS = ["winston_theme", "alex_presentation_theme"];
+
+  function readSavedTheme() {
+    const shared = localStorage.getItem(THEME_KEY);
+    if (shared === "light" || shared === "dark") {
+      return shared;
+    }
+
+    for (const legacyKey of LEGACY_THEME_KEYS) {
+      const legacy = localStorage.getItem(legacyKey);
+      if (legacy === "light" || legacy === "dark") {
+        return legacy;
+      }
+    }
+
+    return "dark";
+  }
+
+  function persistTheme(theme) {
+    localStorage.setItem(THEME_KEY, theme);
+    LEGACY_THEME_KEYS.forEach((key) => localStorage.setItem(key, theme));
+  }
+
+  const currentTheme = readSavedTheme();
+  const isDarkMode = currentTheme === "dark";
   
   // Aplica o tema ao carregar
   if (isDarkMode) {
     document.body.classList.add("dark-mode");
-    themeToggle.querySelector(".theme-icon").textContent = "☀️";
+  } else {
+    document.body.classList.remove("dark-mode");
   }
+
+  const themeIcon = themeToggle.querySelector(".theme-icon");
+  if (themeIcon) {
+    themeIcon.textContent = isDarkMode ? "☀️" : "🌙";
+  }
+
+  persistTheme(isDarkMode ? "dark" : "light");
   
   // Event listener para o botão
   themeToggle.addEventListener("click", function() {
     document.body.classList.toggle("dark-mode");
     const isDark = document.body.classList.contains("dark-mode");
-    localStorage.setItem(THEME_KEY, isDark ? "dark" : "light");
-    themeToggle.querySelector(".theme-icon").textContent = isDark ? "☀️" : "🌙";
+    persistTheme(isDark ? "dark" : "light");
+
+    if (themeIcon) {
+      themeIcon.textContent = isDark ? "☀️" : "🌙";
+    }
 
     // Recalcula o módulo ativo para redesenhar o gráfico com as cores do novo tema.
     const activePanel = document.querySelector(".panel.active");
