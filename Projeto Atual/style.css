@@ -288,6 +288,10 @@ body.dark-mode .theme-toggle:hover {
 .subtitle {
   margin: 10px 0 12px;
   color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: center;
 }
 
 .subtitle a {

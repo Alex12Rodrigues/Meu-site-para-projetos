@@ -395,9 +395,10 @@
 
     .footer-note {
       position: relative;
-      padding: 0 28px 28px;
+      padding: 0 clamp(28px, 4vw, 56px) 28px;
       color: var(--muted);
       font-size: 0.92rem;
+      text-align: left;
     }
 
     .footer-note strong {
@@ -407,7 +408,8 @@
     .footer-links {
       margin: 0 0 10px;
       display: flex;
-      gap: 10px;
+      justify-content: flex-start;
+      gap: 14px;
       align-items: center;
       flex-wrap: wrap;
     }

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,11 +10,13 @@
   <title>Projeto Atual | Calculadora Matemática</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="style.css?v=20260414-historyrecreate2">
   <script>
     // Auto-refresh on version change
-    (function() {
+    (function () {
       const v = "20260414-historyrecreate2";
       const last = localStorage.getItem("appV");
       if (last && last !== v) {
@@ -23,7 +26,7 @@
       localStorage.setItem("appV", v);
     })();
 
-    window.aplicarExemplo = function(kind, example) {
+    window.aplicarExemplo = function (kind, example) {
       const presets = {
         "composto:investimento": {
           capitalComposto: "2500",
@@ -100,42 +103,55 @@
     };
   </script>
 </head>
+
 <body>
   <main class="app-shell">
     <header class="hero">
       <a class="return-presentation" href="../index.html">Voltar para a tela de apresentação</a>
-      <button id="themeToggle" class="theme-toggle" aria-label="Alternar modo escuro" title="Alternar modo escuro" style="position:absolute; top:0; right:0; width:50px; height:50px; border-radius:50%; border:none; cursor:pointer;">
+      <button id="themeToggle" class="theme-toggle" aria-label="Alternar modo escuro" title="Alternar modo escuro"
+        style="position:absolute; top:0; right:0; width:50px; height:50px; border-radius:50%; border:none; cursor:pointer;">
         <span class="theme-icon">🌙</span>
       </button>
       <p class="eyebrow">Matemática aplicada</p>
       <h1>Aplicativo com cálculos do Winston.</h1>
       <p class="subtitle">
-        <a href="../index.html">Início</a>
-        <span aria-hidden="true">·</span>
-        <a href="https://github.com/Alex12Rodrigues" target="_blank" rel="noopener noreferrer">Veja meus projetos no GitHub</a>
-        <span aria-hidden="true">·</span>
+        <a href="https://github.com/Alex12Rodrigues" target="_blank" rel="noopener noreferrer">Projetos no GitHub</a>
+        <span aria-hidden="true">•</span>
         <a href="https://alex12rodrigues.infinityfree.me/" target="_blank" rel="noopener noreferrer">Meu site</a>
       </p>
       <p class="active-module">Módulo ativo: <strong id="moduloAtivo">Juros Compostos</strong></p>
     </header>
 
     <nav class="tab-bar" aria-label="Módulos matemáticos" role="tablist">
-      <button id="tab-juros-compostos" class="tab-btn active" data-tab="juros-compostos" role="tab" aria-selected="true" aria-controls="juros-compostos">Juros Compostos</button>
-      <button id="tab-juros-simples" class="tab-btn" data-tab="juros-simples" role="tab" aria-selected="false" aria-controls="juros-simples">Juros Simples</button>
-      <button id="tab-equacao-primeiro" class="tab-btn" data-tab="equacao-primeiro" role="tab" aria-selected="false" aria-controls="equacao-primeiro">Equação 1º</button>
-      <button id="tab-equacao-segundo" class="tab-btn" data-tab="equacao-segundo" role="tab" aria-selected="false" aria-controls="equacao-segundo">Equação 2º</button>
-      <button id="tab-funcao-primeiro" class="tab-btn" data-tab="funcao-primeiro" role="tab" aria-selected="false" aria-controls="funcao-primeiro">Função 1º</button>
-      <button id="tab-funcao-segundo" class="tab-btn" data-tab="funcao-segundo" role="tab" aria-selected="false" aria-controls="funcao-segundo">Função 2º</button>
-      <button id="tab-inequacao-primeiro" class="tab-btn" data-tab="inequacao-primeiro" role="tab" aria-selected="false" aria-controls="inequacao-primeiro">Inequação 1º</button>
-      <button id="tab-inequacao-segundo" class="tab-btn" data-tab="inequacao-segundo" role="tab" aria-selected="false" aria-controls="inequacao-segundo">Inequação 2º</button>
-      <button id="tab-conjuntos" class="tab-btn" data-tab="conjuntos" role="tab" aria-selected="false" aria-controls="conjuntos">Conjuntos</button>
-      <button id="tab-dominio-imagem" class="tab-btn" data-tab="dominio-imagem" role="tab" aria-selected="false" aria-controls="dominio-imagem">Domínio</button>
-      <button id="tab-historico" class="tab-btn" data-tab="historico" role="tab" aria-selected="false" aria-controls="historico">Histórico</button>
+      <button id="tab-juros-compostos" class="tab-btn active" data-tab="juros-compostos" role="tab" aria-selected="true"
+        aria-controls="juros-compostos">Juros Compostos</button>
+      <button id="tab-juros-simples" class="tab-btn" data-tab="juros-simples" role="tab" aria-selected="false"
+        aria-controls="juros-simples">Juros Simples</button>
+      <button id="tab-equacao-primeiro" class="tab-btn" data-tab="equacao-primeiro" role="tab" aria-selected="false"
+        aria-controls="equacao-primeiro">Equação 1º</button>
+      <button id="tab-equacao-segundo" class="tab-btn" data-tab="equacao-segundo" role="tab" aria-selected="false"
+        aria-controls="equacao-segundo">Equação 2º</button>
+      <button id="tab-funcao-primeiro" class="tab-btn" data-tab="funcao-primeiro" role="tab" aria-selected="false"
+        aria-controls="funcao-primeiro">Função 1º</button>
+      <button id="tab-funcao-segundo" class="tab-btn" data-tab="funcao-segundo" role="tab" aria-selected="false"
+        aria-controls="funcao-segundo">Função 2º</button>
+      <button id="tab-inequacao-primeiro" class="tab-btn" data-tab="inequacao-primeiro" role="tab" aria-selected="false"
+        aria-controls="inequacao-primeiro">Inequação 1º</button>
+      <button id="tab-inequacao-segundo" class="tab-btn" data-tab="inequacao-segundo" role="tab" aria-selected="false"
+        aria-controls="inequacao-segundo">Inequação 2º</button>
+      <button id="tab-conjuntos" class="tab-btn" data-tab="conjuntos" role="tab" aria-selected="false"
+        aria-controls="conjuntos">Conjuntos</button>
+      <button id="tab-dominio-imagem" class="tab-btn" data-tab="dominio-imagem" role="tab" aria-selected="false"
+        aria-controls="dominio-imagem">Domínio</button>
+      <button id="tab-historico" class="tab-btn" data-tab="historico" role="tab" aria-selected="false"
+        aria-controls="historico">Histórico</button>
     </nav>
 
-    <section id="juros-compostos" class="panel active" aria-live="polite" role="tabpanel" aria-labelledby="tab-juros-compostos">
+    <section id="juros-compostos" class="panel active" aria-live="polite" role="tabpanel"
+      aria-labelledby="tab-juros-compostos">
       <h2>Juros Compostos</h2>
-      <p class="panel-note">Preencha o valor e escolha a unidade. Se taxa e tempo estiverem em unidades diferentes, o sistema faz a equivalência automaticamente.</p>
+      <p class="panel-note">Preencha o valor e escolha a unidade. Se taxa e tempo estiverem em unidades diferentes, o
+        sistema faz a equivalência automaticamente.</p>
       <div class="interest-layout">
         <div>
           <div class="grid-inputs">
@@ -170,11 +186,14 @@
 
           <div class="quick-examples" aria-label="Exemplos rápidos de juros compostos">
             <span>Exemplos rápidos:</span>
-            <button type="button" class="example-btn" data-kind="composto" data-example="investimento">Investimento 12 meses</button>
-            <button type="button" class="example-btn" data-kind="composto" data-example="curto">Ciclo curto diário</button>
+            <button type="button" class="example-btn" data-kind="composto" data-example="investimento">Investimento 12
+              meses</button>
+            <button type="button" class="example-btn" data-kind="composto" data-example="curto">Ciclo curto
+              diário</button>
           </div>
 
-          <p class="live-explain" id="explicaComposto">Preencha os campos para visualizar o cenário antes de calcular.</p>
+          <p class="live-explain" id="explicaComposto">Preencha os campos para visualizar o cenário antes de calcular.
+          </p>
         </div>
 
         <aside class="formula-card" aria-label="Explicação da fórmula de juros compostos">
@@ -191,14 +210,16 @@
       </div>
       <div class="actions">
         <button class="action" id="btnComposto">Calcular</button>
-        <button class="ghost-action clear-btn" type="button" data-panel="juros-compostos" data-output="saidaComposto">Limpar</button>
+        <button class="ghost-action clear-btn" type="button" data-panel="juros-compostos"
+          data-output="saidaComposto">Limpar</button>
       </div>
       <div class="result" id="saidaComposto"></div>
     </section>
 
     <section id="juros-simples" class="panel" aria-live="polite" role="tabpanel" aria-labelledby="tab-juros-simples">
       <h2>Juros Simples</h2>
-      <p class="panel-note">Preencha o valor e escolha a unidade. Se taxa e tempo estiverem em unidades diferentes, o sistema faz a equivalência automaticamente.</p>
+      <p class="panel-note">Preencha o valor e escolha a unidade. Se taxa e tempo estiverem em unidades diferentes, o
+        sistema faz a equivalência automaticamente.</p>
       <div class="interest-layout">
         <div>
           <div class="grid-inputs">
@@ -233,11 +254,13 @@
 
           <div class="quick-examples" aria-label="Exemplos rápidos de juros simples">
             <span>Exemplos rápidos:</span>
-            <button type="button" class="example-btn" data-kind="simples" data-example="emprestimo">Empréstimo 6 meses</button>
+            <button type="button" class="example-btn" data-kind="simples" data-example="emprestimo">Empréstimo 6
+              meses</button>
             <button type="button" class="example-btn" data-kind="simples" data-example="anual">Aplicação anual</button>
           </div>
 
-          <p class="live-explain" id="explicaSimples">Preencha os campos para visualizar o cenário antes de calcular.</p>
+          <p class="live-explain" id="explicaSimples">Preencha os campos para visualizar o cenário antes de calcular.
+          </p>
         </div>
 
         <aside class="formula-card" aria-label="Explicação da fórmula de juros simples">
@@ -256,12 +279,14 @@
       </div>
       <div class="actions">
         <button class="action" id="btnSimples">Calcular</button>
-        <button class="ghost-action clear-btn" type="button" data-panel="juros-simples" data-output="saidaSimples">Limpar</button>
+        <button class="ghost-action clear-btn" type="button" data-panel="juros-simples"
+          data-output="saidaSimples">Limpar</button>
       </div>
       <div class="result" id="saidaSimples"></div>
     </section>
 
-    <section id="equacao-primeiro" class="panel" aria-live="polite" role="tabpanel" aria-labelledby="tab-equacao-primeiro">
+    <section id="equacao-primeiro" class="panel" aria-live="polite" role="tabpanel"
+      aria-labelledby="tab-equacao-primeiro">
       <h2>Equação do 1º grau (ax + b = 0)</h2>
       <p class="panel-note">Informe coeficientes reais para resolver x de forma direta.</p>
       <div class="grid-inputs">
@@ -280,12 +305,14 @@
       <p class="live-explain" id="explicaEq1">Preencha os campos para visualizar o cenário antes de calcular.</p>
       <div class="actions">
         <button class="action" id="btnEq1">Resolver</button>
-        <button class="ghost-action clear-btn" type="button" data-panel="equacao-primeiro" data-output="saidaEq1">Limpar</button>
+        <button class="ghost-action clear-btn" type="button" data-panel="equacao-primeiro"
+          data-output="saidaEq1">Limpar</button>
       </div>
       <div class="result" id="saidaEq1"></div>
     </section>
 
-    <section id="equacao-segundo" class="panel" aria-live="polite" role="tabpanel" aria-labelledby="tab-equacao-segundo">
+    <section id="equacao-segundo" class="panel" aria-live="polite" role="tabpanel"
+      aria-labelledby="tab-equacao-segundo">
       <h2>Equação do 2º grau (ax² + bx + c = 0)</h2>
       <p class="panel-note">A ferramenta mostra delta e raízes reais quando existirem.</p>
       <div class="grid-inputs">
@@ -307,12 +334,14 @@
       <p class="live-explain" id="explicaEq2">Preencha os campos para visualizar o cenário antes de calcular.</p>
       <div class="actions">
         <button class="action" id="btnEq2">Resolver</button>
-        <button class="ghost-action clear-btn" type="button" data-panel="equacao-segundo" data-output="saidaEq2">Limpar</button>
+        <button class="ghost-action clear-btn" type="button" data-panel="equacao-segundo"
+          data-output="saidaEq2">Limpar</button>
       </div>
       <div class="result" id="saidaEq2"></div>
     </section>
 
-    <section id="funcao-primeiro" class="panel" aria-live="polite" role="tabpanel" aria-labelledby="tab-funcao-primeiro">
+    <section id="funcao-primeiro" class="panel" aria-live="polite" role="tabpanel"
+      aria-labelledby="tab-funcao-primeiro">
       <h2>Função do 1º grau (f(x) = ax + b)</h2>
       <p class="panel-note">Informe os coeficientes e o valor de x para calcular a imagem da função.</p>
       <div class="grid-inputs">
@@ -331,10 +360,12 @@
         <button type="button" class="example-btn" data-kind="func1" data-example="basico">f(x)=3x-9, x=2</button>
         <button type="button" class="example-btn" data-kind="func1" data-example="negativo">f(x)=-2x+8, x=4</button>
       </div>
-      <p class="live-explain" id="explicaFunc1">Preencha os campos para visualizar o valor da função antes de calcular.</p>
+      <p class="live-explain" id="explicaFunc1">Preencha os campos para visualizar o valor da função antes de calcular.
+      </p>
       <div class="actions">
         <button class="action" id="btnFunc1">Calcular</button>
-        <button class="ghost-action clear-btn" type="button" data-panel="funcao-primeiro" data-output="saidaFunc1">Limpar</button>
+        <button class="ghost-action clear-btn" type="button" data-panel="funcao-primeiro"
+          data-output="saidaFunc1">Limpar</button>
       </div>
       <div class="result" id="saidaFunc1"></div>
     </section>
@@ -358,18 +389,22 @@
       </div>
       <div class="quick-examples" aria-label="Exemplos rápidos de função do segundo grau">
         <span>Exemplos rápidos:</span>
-        <button type="button" class="example-btn" data-kind="func2" data-example="duas-raizes">f(x)=x²-5x+6, x=2</button>
+        <button type="button" class="example-btn" data-kind="func2" data-example="duas-raizes">f(x)=x²-5x+6,
+          x=2</button>
         <button type="button" class="example-btn" data-kind="func2" data-example="raiz-dupla">f(x)=x²-4x+4, x=3</button>
       </div>
-      <p class="live-explain" id="explicaFunc2">Preencha os campos para visualizar o valor da função antes de calcular.</p>
+      <p class="live-explain" id="explicaFunc2">Preencha os campos para visualizar o valor da função antes de calcular.
+      </p>
       <div class="actions">
         <button class="action" id="btnFunc2">Calcular</button>
-        <button class="ghost-action clear-btn" type="button" data-panel="funcao-segundo" data-output="saidaFunc2">Limpar</button>
+        <button class="ghost-action clear-btn" type="button" data-panel="funcao-segundo"
+          data-output="saidaFunc2">Limpar</button>
       </div>
       <div class="result" id="saidaFunc2"></div>
     </section>
 
-    <section id="inequacao-primeiro" class="panel" aria-live="polite" role="tabpanel" aria-labelledby="tab-inequacao-primeiro">
+    <section id="inequacao-primeiro" class="panel" aria-live="polite" role="tabpanel"
+      aria-labelledby="tab-inequacao-primeiro">
       <h2>Inequação do 1º grau (ax + b &gt; 0)</h2>
       <p class="panel-note">Receba a faixa de valores de x que satisfaz a desigualdade.</p>
       <div class="grid-inputs">
@@ -388,12 +423,14 @@
       <p class="live-explain" id="explicaIneq1">Preencha os campos para visualizar o cenário antes de calcular.</p>
       <div class="actions">
         <button class="action" id="btnIneq1">Resolver</button>
-        <button class="ghost-action clear-btn" type="button" data-panel="inequacao-primeiro" data-output="saidaIneq1">Limpar</button>
+        <button class="ghost-action clear-btn" type="button" data-panel="inequacao-primeiro"
+          data-output="saidaIneq1">Limpar</button>
       </div>
       <div class="result" id="saidaIneq1"></div>
     </section>
 
-    <section id="inequacao-segundo" class="panel" aria-live="polite" role="tabpanel" aria-labelledby="tab-inequacao-segundo">
+    <section id="inequacao-segundo" class="panel" aria-live="polite" role="tabpanel"
+      aria-labelledby="tab-inequacao-segundo">
       <h2>Inequação do 2º grau (ax² + bx + c &gt; 0)</h2>
       <p class="panel-note">O resultado mostra intervalos de solução conforme o sinal da parábola.</p>
       <div class="grid-inputs">
@@ -415,7 +452,8 @@
       <p class="live-explain" id="explicaIneq2">Preencha os campos para visualizar o cenário antes de calcular.</p>
       <div class="actions">
         <button class="action" id="btnIneq2">Resolver</button>
-        <button class="ghost-action clear-btn" type="button" data-panel="inequacao-segundo" data-output="saidaIneq2">Limpar</button>
+        <button class="ghost-action clear-btn" type="button" data-panel="inequacao-segundo"
+          data-output="saidaIneq2">Limpar</button>
       </div>
       <div class="result" id="saidaIneq2"></div>
     </section>
@@ -443,12 +481,14 @@
       <div class="quick-examples" aria-label="Exemplos rápidos de conjuntos">
         <span>Exemplos rápidos:</span>
         <button type="button" class="example-btn" data-kind="conjuntos" data-example="uniao">União básica</button>
-        <button type="button" class="example-btn" data-kind="conjuntos" data-example="intersecao">Interseção básica</button>
+        <button type="button" class="example-btn" data-kind="conjuntos" data-example="intersecao">Interseção
+          básica</button>
       </div>
       <p class="live-explain" id="explicaConjuntos">Preencha os campos para visualizar o cenário antes de calcular.</p>
       <div class="actions">
         <button class="action" id="btnConjuntos">Calcular</button>
-        <button class="ghost-action clear-btn" type="button" data-panel="conjuntos" data-output="saidaConjuntos">Limpar</button>
+        <button class="ghost-action clear-btn" type="button" data-panel="conjuntos"
+          data-output="saidaConjuntos">Limpar</button>
       </div>
       <div class="result" id="saidaConjuntos"></div>
     </section>
@@ -496,13 +536,15 @@
       </div>
       <div class="quick-examples" aria-label="Exemplos rápidos de domínio e imagem">
         <span>Exemplos rápidos:</span>
-        <button type="button" class="example-btn" data-kind="dominio" data-example="intervalo1">Intervalo fechado</button>
+        <button type="button" class="example-btn" data-kind="dominio" data-example="intervalo1">Intervalo
+          fechado</button>
         <button type="button" class="example-btn" data-kind="dominio" data-example="intervalo2">Intervalo misto</button>
       </div>
       <p class="live-explain" id="explicaDominio">Preencha os campos para visualizar o cenário antes de calcular.</p>
       <div class="actions">
         <button class="action" id="btnDominioImagem">Gerar</button>
-        <button class="ghost-action clear-btn" type="button" data-panel="dominio-imagem" data-output="saidaDominioImagem">Limpar</button>
+        <button class="ghost-action clear-btn" type="button" data-panel="dominio-imagem"
+          data-output="saidaDominioImagem">Limpar</button>
       </div>
       <div class="result" id="saidaDominioImagem"></div>
     </section>
@@ -521,4 +563,5 @@
 
   <script src="script.js?v=20260414-historyrecreate2"></script>
 </body>
+
 </html>
