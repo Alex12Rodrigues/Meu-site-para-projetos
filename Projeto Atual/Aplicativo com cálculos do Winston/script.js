@@ -9,7 +9,7 @@ const activeModuleText = byId("moduloAtivo");
     return;
   }
   const THEME_KEY = "alex_site_theme";
-  const LEGACY_THEME_KEYS = ["winston_theme", "alex_presentation_theme"];
+  const LEGACY_THEME_KEYS = ["winston_theme", "alex_presentation_theme", "quadratic_theme"];
 
   function readSavedTheme() {
     const shared = localStorage.getItem(THEME_KEY);

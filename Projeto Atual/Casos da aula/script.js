@@ -1,5 +1,6 @@
 const HISTORY_KEY = "quadratic_cases_history";
-const THEME_KEY = "quadratic_theme";
+const THEME_KEY = "alex_site_theme";
+const LEGACY_THEME_KEYS = ["winston_theme", "alex_presentation_theme", "quadratic_theme"];
 const UI_STATE_KEY = "quadratic_ui_state";
 
 const CASES = [
@@ -39,6 +40,7 @@ const CASE_EXAMPLES = {
 let historyEntries = [];
 let suppressHistory = false;
 let lastCalculatedPanelId = null;
+const activeModuleText = byId("moduloAtivo");
 
 function byId(id) {
   return document.getElementById(id);
@@ -246,6 +248,10 @@ function showPanel(panelId) {
     const active = button.dataset.target === panelId;
     button.classList.toggle("active", active);
     button.setAttribute("aria-selected", active ? "true" : "false");
+
+    if (active && activeModuleText) {
+      activeModuleText.textContent = button.textContent;
+    }
   });
 }
 
@@ -504,19 +510,62 @@ function clearHistory() {
 
 function setupTheme() {
   const toggle = byId("themeToggle");
-  const savedTheme = localStorage.getItem(THEME_KEY);
-  const shouldUseDark = savedTheme === "dark";
+  const icon = toggle ? toggle.querySelector(".theme-icon") : null;
 
-  if (shouldUseDark) {
-    document.body.classList.add("dark-mode");
-    toggle.textContent = "Modo claro";
+  function readSavedTheme() {
+    const shared = localStorage.getItem(THEME_KEY);
+    if (shared === "light" || shared === "dark") {
+      return shared;
+    }
+
+    for (const legacyKey of LEGACY_THEME_KEYS) {
+      const legacy = localStorage.getItem(legacyKey);
+      if (legacy === "light" || legacy === "dark") {
+        return legacy;
+      }
+    }
+
+    return "dark";
+  }
+
+  function persistTheme(theme) {
+    localStorage.setItem(THEME_KEY, theme);
+    LEGACY_THEME_KEYS.forEach((key) => localStorage.setItem(key, theme));
+  }
+
+  function applyTheme(theme) {
+    const isDark = theme === "dark";
+    document.body.classList.toggle("dark-mode", isDark);
+
+    if (icon) {
+      icon.textContent = isDark ? "☀️" : "🌙";
+    }
+  }
+
+  let currentTheme = readSavedTheme();
+  applyTheme(currentTheme);
+  persistTheme(currentTheme);
+
+  if (!toggle) {
+    return;
   }
 
   toggle.addEventListener("click", () => {
-    const isDark = document.body.classList.toggle("dark-mode");
-    localStorage.setItem(THEME_KEY, isDark ? "dark" : "light");
-    saveUiState();
-    window.location.reload();
+    currentTheme = currentTheme === "dark" ? "light" : "dark";
+    applyTheme(currentTheme);
+    persistTheme(currentTheme);
+
+    const panelId = getActivePanelId();
+    const caseData = CASES.find((item) => item.panelId === panelId);
+
+    if (caseData) {
+      suppressHistory = true;
+      try {
+        calculateCase(caseData);
+      } finally {
+        suppressHistory = false;
+      }
+    }
   });
 }
 

@@ -7,8 +7,83 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script>
+    (function () {
+      const THEME_KEY = "alex_site_theme";
+      const LEGACY_THEME_KEYS = ["alex_presentation_theme", "winston_theme", "quadratic_theme"];
+
+      function readSavedTheme() {
+        const shared = localStorage.getItem(THEME_KEY);
+        if (shared === "light" || shared === "dark") {
+          return shared;
+        }
+
+        for (const legacyKey of LEGACY_THEME_KEYS) {
+          const legacy = localStorage.getItem(legacyKey);
+          if (legacy === "light" || legacy === "dark") {
+            return legacy;
+          }
+        }
+
+        return "dark";
+      }
+
+      function persistTheme(theme) {
+        localStorage.setItem(THEME_KEY, theme);
+        LEGACY_THEME_KEYS.forEach((key) => localStorage.setItem(key, theme));
+      }
+
+      function applyTheme(theme) {
+        const isLight = theme === "light";
+        document.body.classList.toggle("light-theme", isLight);
+        const icon = document.getElementById("themeIcon");
+        if (icon) {
+          icon.textContent = isLight ? "🌙" : "☀️";
+        }
+      }
+
+      window.addEventListener("DOMContentLoaded", function () {
+        const toggle = document.getElementById("themeToggle");
+        let currentTheme = readSavedTheme();
+        applyTheme(currentTheme);
+        persistTheme(currentTheme);
+
+        if (toggle) {
+          toggle.addEventListener("click", function () {
+            currentTheme = currentTheme === "dark" ? "light" : "dark";
+            applyTheme(currentTheme);
+            persistTheme(currentTheme);
+          });
+        }
+
+        const cards = document.querySelectorAll(".project-card");
+        cards.forEach((card, index) => {
+          card.style.animationDelay = `${index * 140}ms`;
+
+          card.addEventListener("pointermove", function (event) {
+            const rect = card.getBoundingClientRect();
+            const px = (event.clientX - rect.left) / rect.width;
+            const py = (event.clientY - rect.top) / rect.height;
+            const rotateY = (px - 0.5) * 8;
+            const rotateX = (0.5 - py) * 8;
+
+            card.style.transform = `translateY(-6px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            card.style.setProperty("--spark-x", `${px * 100}%`);
+            card.style.setProperty("--spark-y", `${py * 100}%`);
+          });
+
+          card.addEventListener("pointerleave", function () {
+            card.style.transform = "";
+            card.style.removeProperty("--spark-x");
+            card.style.removeProperty("--spark-y");
+          });
+        });
+      });
+    })();
+  </script>
   <style>
     :root {
+      color-scheme: light dark;
       --bg-1: #0b1020;
       --bg-2: #121a33;
       --card-1: rgba(21, 30, 54, 0.96);
@@ -19,6 +94,19 @@
       --accent-2: #35d0ff;
       --line: rgba(255, 255, 255, 0.12);
       --shadow: 0 24px 62px rgba(0, 0, 0, 0.35);
+    }
+
+    body.light-theme {
+      --bg-1: #e8f2ff;
+      --bg-2: #fdf2e4;
+      --card-1: rgba(255, 255, 255, 0.98);
+      --card-2: rgba(241, 248, 255, 0.98);
+      --ink: #0e1a35;
+      --muted: #364764;
+      --accent: #ff8e3d;
+      --accent-2: #0a7ab4;
+      --line: rgba(14, 26, 53, 0.14);
+      --shadow: 0 24px 62px rgba(17, 45, 84, 0.2);
     }
 
     * {
@@ -37,6 +125,13 @@
       padding: 24px;
     }
 
+    body.light-theme {
+      background:
+        radial-gradient(circle at 10% 10%, rgba(74, 160, 255, 0.22), transparent 34%),
+        radial-gradient(circle at 88% 14%, rgba(255, 166, 92, 0.2), transparent 30%),
+        linear-gradient(150deg, var(--bg-1), var(--bg-2));
+    }
+
     .shell {
       width: min(1020px, 100%);
       margin: 0 auto;
@@ -45,9 +140,52 @@
       background: linear-gradient(180deg, var(--card-1), var(--card-2));
       box-shadow: var(--shadow);
       padding: clamp(24px, 3.2vw, 42px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 16% 12%, rgba(53, 208, 255, 0.14), transparent 24%),
+        radial-gradient(circle at 86% 14%, rgba(255, 155, 66, 0.16), transparent 20%);
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 3;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--ink);
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    body.light-theme .theme-toggle {
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 8px 20px rgba(15, 41, 78, 0.16);
+    }
+
+    .theme-toggle:hover {
+      transform: translateY(-1px) scale(1.04);
+      border-color: var(--accent-2);
     }
 
     .top-nav {
+      position: relative;
+      z-index: 2;
       margin-bottom: 18px;
     }
 
@@ -62,9 +200,17 @@
       color: var(--accent-2);
       text-decoration: none;
       font-weight: 700;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .back-link:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent-2);
     }
 
     h1 {
+      position: relative;
+      z-index: 2;
       margin: 0;
       font-size: clamp(2rem, 4.8vw, 3.4rem);
       line-height: 1;
@@ -74,6 +220,8 @@
     }
 
     .lead {
+      position: relative;
+      z-index: 2;
       margin: 14px 0 0;
       max-width: 70ch;
       color: var(--muted);
@@ -82,6 +230,9 @@
     }
 
     .project-grid {
+      position: relative;
+      z-index: 2;
+      perspective: 1200px;
       margin-top: 28px;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -89,12 +240,49 @@
     }
 
     .project-card {
+      --spark-x: 50%;
+      --spark-y: 50%;
       border: 1px solid var(--line);
       border-radius: 16px;
       padding: 18px;
-      background: rgba(255, 255, 255, 0.03);
+      background:
+        radial-gradient(circle at var(--spark-x) var(--spark-y), rgba(53, 208, 255, 0.2), transparent 38%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
       display: grid;
       gap: 12px;
+      transform-style: preserve-3d;
+      transition: transform 0.26s ease, border-color 0.26s ease, box-shadow 0.26s ease;
+      box-shadow: 0 16px 26px rgba(0, 0, 0, 0.2);
+      animation: cardReveal 0.7s ease both;
+      overflow: hidden;
+    }
+
+    body.light-theme .project-card {
+      background:
+        radial-gradient(circle at var(--spark-x) var(--spark-y), rgba(46, 147, 255, 0.16), transparent 40%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(236, 245, 255, 0.82));
+      box-shadow: 0 16px 26px rgba(17, 45, 84, 0.12);
+    }
+
+    .project-card::after {
+      content: "";
+      position: absolute;
+      inset: -30% auto auto -40%;
+      width: 140%;
+      height: 110%;
+      pointer-events: none;
+      background: linear-gradient(110deg, transparent 28%, rgba(255, 255, 255, 0.14) 50%, transparent 72%);
+      transform: translateX(-55%) rotate(7deg);
+      transition: transform 0.55s ease;
+    }
+
+    .project-card:hover::after {
+      transform: translateX(20%) rotate(7deg);
+    }
+
+    .project-card:hover {
+      border-color: var(--accent-2);
+      box-shadow: 0 24px 36px rgba(0, 0, 0, 0.26);
     }
 
     .project-card h2 {
@@ -121,11 +309,46 @@
       box-shadow: 0 12px 28px rgba(255, 143, 61, 0.28);
       padding: 0 18px;
       width: fit-content;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .project-card a:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 15px 28px rgba(255, 143, 61, 0.35);
+    }
+
+    .tag {
+      width: fit-content;
+      font-family: "IBM Plex Mono", monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      color: var(--accent-2);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 10px;
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    @keyframes cardReveal {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.98);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     @media (max-width: 640px) {
       body {
         padding: 14px;
+      }
+
+      .shell {
+        padding-top: 72px;
       }
 
       .project-card a {
@@ -136,6 +359,10 @@
 </head>
 <body>
   <main class="shell">
+    <button id="themeToggle" class="theme-toggle" type="button" aria-label="Alternar tema claro e escuro" title="Alternar tema claro e escuro">
+      <span id="themeIcon">☀️</span>
+    </button>
+
     <div class="top-nav">
       <a class="back-link" href="../index.html">Voltar para a tela de apresentação</a>
     </div>
@@ -145,12 +372,14 @@
 
     <section class="project-grid" aria-label="Lista de projetos">
       <article class="project-card">
+        <span class="tag">Projeto 1</span>
         <h2>Aplicativo de Cálculos</h2>
         <p>Calculadoras de juros, equações, funções, inequações, conjuntos e domínio/imagem com histórico e gráficos.</p>
         <a href="./Aplicativo%20com%20c%C3%A1lculos%20do%20Winston/index.html">Abrir aplicativo</a>
       </article>
 
       <article class="project-card">
+        <span class="tag">Projeto 2</span>
         <h2>Casos da Aula</h2>
         <p>Analisador de funções quadráticas com casos práticos, histórico e foco em receita e lucro.</p>
         <a href="./Casos%20da%20aula/index.html">Abrir casos da aula</a>
