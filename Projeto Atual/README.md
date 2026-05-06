@@ -1,65 +1,41 @@
-# Matemática Aplicada - Função do 2º Grau
+# Projeto Atual
 
-Projeto em HTML, CSS e JavaScript voltado para o estudo de casos de função quadrática, com foco em receita, lucro, vértice, raízes e análise da concavidade.
+Este diretório concentra os projetos disponíveis no seletor interno do site.
 
 ## Visão geral
 
-A aplicação foi montada para trabalhar com os 4 casos apresentados em aula:
+O Projeto Atual foi organizado para crescer com facilidade: existe uma página de seleção e, dentro dela, cada projeto fica em sua própria pasta com arquivos isolados.
 
-1. Receita com venda de sapatos
-2. Análise do lucro com sapatos
-3. Receita do exercício 11
-4. Lucro do exercício 11
+Hoje o seletor aponta para dois projetos:
 
-Cada caso possui sua própria tela, com campos para os coeficientes da função, botão de cálculo, limpeza dos campos, exemplo da aula e histórico de resultados.
+1. Aplicativo com cálculos do Winston
+2. Casos da aula
 
-## O que o projeto faz
+## Estrutura
 
-O sistema permite:
+- [index.html](index.html): página de seleção de projetos
+- [Aplicativo com cálculos do Winston/index.html](Aplicativo%20com%20cálculos%20do%20Winston/index.html): interface principal do app de cálculos
+- [Aplicativo com cálculos do Winston/style.css](Aplicativo%20com%20cálculos%20do%20Winston/style.css): estilos do app de cálculos
+- [Aplicativo com cálculos do Winston/script.js](Aplicativo%20com%20cálculos%20do%20Winston/script.js): lógica do app de cálculos
+- [Casos da aula/index.html](Casos%20da%20aula/index.html): interface do projeto de casos da aula
+- [Casos da aula/style.css](Casos%20da%20aula/style.css): estilos do projeto de casos da aula
+- [Casos da aula/script.js](Casos%20da%20aula/script.js): lógica do projeto de casos da aula
 
-- calcular funções do 2º grau no formato `f(q) = aq² + bq + c`
-- encontrar o vértice da parábola
-- identificar valor máximo ou mínimo
-- calcular as raízes reais, quando existirem
-- mostrar o intervalo de lucro nos casos de lucro
-- exibir um gráfico SVG após o cálculo
-- alternar entre modo claro e escuro
-- guardar histórico dos cálculos realizados
+## Como acessar
 
-## Como usar
+1. Abra [index.html](index.html) dentro desta pasta.
+2. Selecione o projeto desejado.
+3. Use os links de navegação para voltar ao seletor quando necessário.
 
-1. Abra o arquivo `index.html` no navegador.
-2. Escolha um dos 4 casos na barra de abas.
-3. Preencha os coeficientes `a`, `b` e `c`.
-4. Clique em `Calcular`.
-5. Leia o resultado exibido abaixo dos campos.
-6. Se quiser, use o botão `Exemplo da Aula` para preencher automaticamente um caso pronto.
-7. Acesse a aba `Histórico` para ver os cálculos anteriores.
-
-## Interpretação dos casos
-
-- Caso 1: calcula a receita e mostra o valor máximo da função.
-- Caso 2: calcula a função lucro, as raízes e o intervalo lucrativo.
-- Caso 3: calcula a receita do exercício 11 e o ponto de máximo.
-- Caso 4: faz a análise da função lucro do exercício 11, com foco no vértice e nas raízes.
-
-## Tecnologias usadas
+## Tecnologias
 
 - HTML5
 - CSS3
-- JavaScript ES6+
-- SVG para o gráfico da parábola
-- `localStorage` para manter histórico e tema
+- JavaScript
+- localStorage para preferências e histórico, conforme cada projeto
 
-## Estrutura do projeto
+## Objetivo da organização
 
-- [index.html](Casos%20da%20aula/index.html): interface principal com as abas dos casos
-- [style.css](Casos%20da%20aula/style.css): estilos, layout responsivo e temas
-- [script.js](Casos%20da%20aula/script.js): cálculos, gráfico, histórico e interações
-
-## Observações
-
-- O coeficiente `a` não pode ser zero.
-- Quando a função for de lucro, o sistema também mostra o intervalo em que `L(q) > 0`.
-- O gráfico é gerado somente depois do cálculo.
-- O projeto foi pensado para uso didático e apresentação em aula.
+- manter cada projeto desacoplado
+- facilitar manutenção e evolução
+- permitir adicionar novos projetos sem alterar a base dos existentes
