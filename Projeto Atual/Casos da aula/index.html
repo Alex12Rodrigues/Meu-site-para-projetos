@@ -6,21 +6,26 @@
   <title>Analisador de Receita e Lucro</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <main class="layout">
     <header class="hero">
-      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Alternar tema">Modo escuro</button>
+      <a class="return-presentation" href="../index.html">Voltar para a seleção de projetos</a>
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Alternar tema claro e escuro" title="Alternar tema claro e escuro">
+        <span class="theme-icon">☀️</span>
+      </button>
       <div class="hero-copy">
-        <p class="eyebrow">Matemática aplicada a negócios</p>
-        <p class="project-switch">
-          <a href="../index.html">Voltar para a seleção de projetos</a>
+        <p class="eyebrow">Matemática aplicada</p>
+        <h1>Analisador de Funções Quadráticas.</h1>
+        <p class="subtitle-links">
+          <a href="https://github.com/Alex12Rodrigues" target="_blank" rel="noopener noreferrer">Projetos no GitHub</a>
+          <span aria-hidden="true">•</span>
+          <a href="https://alex12rodrigues.infinityfree.me/" target="_blank" rel="noopener noreferrer">Meu site</a>
         </p>
-        <a class="repo-link" href="https://github.com/Alex12Rodrigues/Atividade-4-casos" target="_blank" rel="noopener noreferrer">Link para o repositório no Github</a>
-        <h1>Analisador de Funções Quadráticas</h1>
         <p class="subtitle">Uma tela para cada caso, com cálculo individual de vértice, raízes e intervalo de lucro.</p>
+        <p class="active-module">Módulo ativo: <strong id="moduloAtivo">CASO 1</strong></p>
       </div>
       <div class="hero-visual" aria-hidden="true">
         <div class="hero-mascot">
