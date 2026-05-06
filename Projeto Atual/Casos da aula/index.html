@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analisador de Receita e Lucro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="layout">
+    <header class="hero">
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Alternar tema">Modo escuro</button>
+      <div class="hero-copy">
+        <p class="eyebrow">Matemática aplicada a negócios</p>
+        <p class="project-switch">
+          <a href="../index.html">Voltar para a seleção de projetos</a>
+        </p>
+        <a class="repo-link" href="https://github.com/Alex12Rodrigues/Atividade-4-casos" target="_blank" rel="noopener noreferrer">Link para o repositório no Github</a>
+        <h1>Analisador de Funções Quadráticas</h1>
+        <p class="subtitle">Uma tela para cada caso, com cálculo individual de vértice, raízes e intervalo de lucro.</p>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-mascot">
+          <div class="mascot-antenna"></div>
+          <div class="mascot-body">
+            <div class="mascot-screen">
+              <span class="mascot-eyes">
+                <span></span>
+                <span></span>
+              </span>
+              <span class="mascot-expression">=</span>
+            </div>
+            <div class="mascot-buttons">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>Casos solicitados</h2>
+      <p class="help">Selecione um caso para abrir a tela correspondente e calcular.</p>
+
+      <nav class="tab-bar" role="tablist" aria-label="Casos de estudo">
+        <button class="tab-btn active" data-target="caso-1" role="tab" aria-selected="true">CASO 1</button>
+        <button class="tab-btn" data-target="caso-2" role="tab" aria-selected="false">CASO 2</button>
+        <button class="tab-btn" data-target="caso-3" role="tab" aria-selected="false">CASO 3</button>
+        <button class="tab-btn" data-target="caso-4" role="tab" aria-selected="false">CASO 4</button>
+        <button class="tab-btn" data-target="historico" role="tab" aria-selected="false">HISTÓRICO</button>
+      </nav>
+
+      <section id="caso-1" class="case-panel active" role="tabpanel">
+        <div class="formula-spotlight">
+          <p class="formula-label">Função do caso</p>
+          <p class="formula formula-strong">R(q) = aq² + bq + c</p>
+        </div>
+        <div class="form-grid">
+          <label>Coeficiente a
+            <input id="caso-1-a" type="number" step="any" value="-2" placeholder="Digite um número">
+          </label>
+          <label>Coeficiente b
+            <input id="caso-1-b" type="number" step="any" value="200" placeholder="Digite um número">
+          </label>
+          <label>Coeficiente c
+            <input id="caso-1-c" type="number" step="any" value="0" placeholder="Digite um número">
+          </label>
+        </div>
+        <div class="example-box">
+          <p class="example-title">Exemplo da Aula (caso 1)</p>
+          <div class="example-actions">
+            <button class="example-btn" type="button" data-case="caso-1" data-example="exemplo">Exemplo da Aula</button>
+          </div>
+          <p id="explain-caso-1" class="example-explain">Receita com venda de sapatos: p = -2q + 200 e R(q) = -2q² + 200q.</p>
+        </div>
+        <div class="actions">
+          <button id="btn-caso-1" class="btn-primary" type="button">Calcular</button>
+          <button id="btn-clear-caso-1" class="btn-secondary" type="button">Limpar</button>
+        </div>
+        <div id="output-caso-1" class="output">Clique em calcular para gerar o resultado e o gráfico.</div>
+      </section>
+
+      <section id="caso-2" class="case-panel" role="tabpanel">
+        <div class="formula-spotlight">
+          <p class="formula-label">Função do caso</p>
+          <p class="formula formula-strong">L(q) = aq² + bq + c</p>
+        </div>
+        <div class="form-grid">
+          <label>Coeficiente a
+            <input id="caso-2-a" type="number" step="any" value="-2" placeholder="Digite um número">
+          </label>
+          <label>Coeficiente b
+            <input id="caso-2-b" type="number" step="any" value="160" placeholder="Digite um número">
+          </label>
+          <label>Coeficiente c
+            <input id="caso-2-c" type="number" step="any" value="-1400" placeholder="Digite um número">
+          </label>
+        </div>
+        <div class="example-box">
+          <p class="example-title">Exemplo da Aula (caso 2)</p>
+          <div class="example-actions">
+            <button class="example-btn" type="button" data-case="caso-2" data-example="exemplo">Exemplo da Aula</button>
+          </div>
+          <p id="explain-caso-2" class="example-explain">Lucro com sapatos: L(q) = -2q² + 160q - 1.400 e pontos de equilíbrio em 10 e 70.</p>
+        </div>
+        <div class="actions">
+          <button id="btn-caso-2" class="btn-primary" type="button">Calcular</button>
+          <button id="btn-clear-caso-2" class="btn-secondary" type="button">Limpar</button>
+        </div>
+        <div id="output-caso-2" class="output">Clique em calcular para gerar o resultado e o gráfico.</div>
+      </section>
+
+      <section id="caso-3" class="case-panel" role="tabpanel">
+        <div class="formula-spotlight">
+          <p class="formula-label">Função do caso</p>
+          <p class="formula formula-strong">R(q) = aq² + bq + c</p>
+        </div>
+        <div class="form-grid">
+          <label>Coeficiente a
+            <input id="caso-3-a" type="number" step="any" value="-2" placeholder="Digite um número">
+          </label>
+          <label>Coeficiente b
+            <input id="caso-3-b" type="number" step="any" value="1000" placeholder="Digite um número">
+          </label>
+          <label>Coeficiente c
+            <input id="caso-3-c" type="number" step="any" value="0" placeholder="Digite um número">
+          </label>
+        </div>
+        <div class="example-box">
+          <p class="example-title">Exemplo da Aula (caso 3)</p>
+          <div class="example-actions">
+            <button class="example-btn" type="button" data-case="caso-3" data-example="exemplo">Exemplo da Aula</button>
+          </div>
+          <p id="explain-caso-3" class="example-explain">Receita do exercício 11: R(q) = -2q² + 1.000q, com máximo em 250.</p>
+        </div>
+        <div class="actions">
+          <button id="btn-caso-3" class="btn-primary" type="button">Calcular</button>
+          <button id="btn-clear-caso-3" class="btn-secondary" type="button">Limpar</button>
+        </div>
+        <div id="output-caso-3" class="output">Clique em calcular para gerar o resultado e o gráfico.</div>
+      </section>
+
+      <section id="caso-4" class="case-panel" role="tabpanel">
+        <div class="formula-spotlight">
+          <p class="formula-label">Função do caso</p>
+          <p class="formula formula-strong">L(q) = aq² + bq + c</p>
+        </div>
+        <div class="form-grid">
+          <label>Coeficiente a
+            <input id="caso-4-a" type="number" step="any" value="-2" placeholder="Digite um número">
+          </label>
+          <label>Coeficiente b
+            <input id="caso-4-b" type="number" step="any" value="800" placeholder="Digite um número">
+          </label>
+          <label>Coeficiente c
+            <input id="caso-4-c" type="number" step="any" value="-35000" placeholder="Digite um número">
+          </label>
+        </div>
+        <div class="example-box">
+          <p class="example-title">Exemplo da Aula (caso 4)</p>
+          <div class="example-actions">
+            <button class="example-btn" type="button" data-case="caso-4" data-example="exemplo">Exemplo da Aula</button>
+          </div>
+          <p id="explain-caso-4" class="example-explain">Lucro do exercício 11: L(q) = -2q² + 800q - 35.000, com lucro máximo em 200.</p>
+        </div>
+        <div class="actions">
+          <button id="btn-caso-4" class="btn-primary" type="button">Calcular</button>
+          <button id="btn-clear-caso-4" class="btn-secondary" type="button">Limpar</button>
+        </div>
+        <div id="output-caso-4" class="output">Clique em calcular para gerar o resultado e o gráfico.</div>
+      </section>
+
+      <section id="historico" class="case-panel" role="tabpanel">
+        <h3>Histórico</h3>
+        <p class="help">Registros dos últimos cálculos realizados.</p>
+        <div class="history-box">
+          <ul id="historyList" class="history-list"></ul>
+        </div>
+        <div class="actions">
+          <button id="btnClearHistory" class="btn-secondary" type="button">Limpar histórico</button>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
