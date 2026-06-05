@@ -56,9 +56,40 @@
           });
         }
 
+        const allowMotion = window.matchMedia("(prefers-reduced-motion: no-preference)").matches;
+        const isFinePointer = window.matchMedia("(pointer: fine)").matches;
+
+        const mascotBtn = document.getElementById("mascotBot");
+        const mascotHint = document.getElementById("mascotHint");
+        const tips = [
+          "Sou uma sonda diferente do robô da tela inicial — clique de novo para mais dicas.",
+          "Precisa de várias calculadoras? Abra o Aplicativo de Cálculos.",
+          "Focado em receita e lucro com parábola? Vá em Casos da Aula.",
+          "Quer conferir logística ou matemática financeira? Abra Resolução de questões.",
+          "As bolinhas orbitando são só vibe — escolha o card que combinar com você.",
+          "Use Abrir projeto no card para entrar no app."
+        ];
+        let tipIndex = -1;
+
+        if (mascotBtn && mascotHint) {
+          mascotBtn.addEventListener("click", function () {
+            tipIndex = (tipIndex + 1) % tips.length;
+            mascotHint.textContent = tips[tipIndex];
+            mascotBtn.classList.remove("is-tap");
+            window.requestAnimationFrame(function () {
+              void mascotBtn.offsetWidth;
+              mascotBtn.classList.add("is-tap");
+            });
+          });
+        }
+
         const cards = document.querySelectorAll(".project-card");
         cards.forEach((card, index) => {
           card.style.animationDelay = `${index * 140}ms`;
+
+          if (!allowMotion || !isFinePointer) {
+            return;
+          }
 
           card.addEventListener("pointermove", function (event) {
             const rect = card.getBoundingClientRect();
@@ -125,6 +156,12 @@
       padding: 24px;
     }
 
+    .page {
+      min-height: calc(100vh - 48px);
+      display: grid;
+      place-items: center;
+    }
+
     body.light-theme {
       background:
         radial-gradient(circle at 10% 10%, rgba(74, 160, 255, 0.22), transparent 34%),
@@ -154,11 +191,17 @@
         radial-gradient(circle at 86% 14%, rgba(255, 155, 66, 0.16), transparent 20%);
     }
 
+    @media (prefers-reduced-motion: no-preference) {
+      .shell::before {
+        animation: ambientGlow 10s ease-in-out infinite alternate;
+      }
+    }
+
     .theme-toggle {
       position: absolute;
       top: 14px;
       right: 14px;
-      z-index: 3;
+      z-index: 5;
       width: 46px;
       height: 46px;
       border-radius: 50%;
@@ -185,7 +228,7 @@
 
     .top-nav {
       position: relative;
-      z-index: 2;
+      z-index: 3;
       margin-bottom: 18px;
     }
 
@@ -208,9 +251,269 @@
       border-color: var(--accent-2);
     }
 
+    .hero-row {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: clamp(16px, 3vw, 28px);
+      align-items: center;
+    }
+
+    .hero-copy {
+      min-width: 0;
+    }
+
+    .mascot-column {
+      display: grid;
+      justify-items: center;
+      gap: 10px;
+      width: min(220px, 100%);
+    }
+
+    .mascot-bot {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 14px 18px 18px;
+      background: rgba(255, 255, 255, 0.06);
+      color: inherit;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
+    }
+
+    body.light-theme .mascot-bot {
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: 0 14px 28px rgba(17, 45, 84, 0.1);
+    }
+
+    .mascot-bot:hover {
+      transform: translateY(-3px) scale(1.02);
+      border-color: var(--accent-2);
+    }
+
+    .mascot-bot:focus-visible {
+      outline: 2px solid var(--accent-2);
+      outline-offset: 3px;
+    }
+
+    .mascot-bot.is-tap {
+      animation: probeNudge 0.55s ease;
+    }
+
+    /* Mascote “sonda”: órbita + casulo + visor em scan — diferente do robô da página inicial */
+    .probe-stage {
+      display: block;
+      width: 132px;
+      height: 132px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .probe-ring {
+      position: absolute;
+      inset: 6px;
+      border-radius: 50%;
+      border: 2px dashed rgba(167, 139, 250, 0.42);
+      box-shadow: inset 0 0 24px rgba(99, 102, 241, 0.12);
+      pointer-events: none;
+    }
+
+    .probe-satellites {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .probe-satellites {
+        animation: probeOrbit 10s linear infinite;
+      }
+
+      .probe-ring {
+        animation: probeRingPulse 4s ease-in-out infinite alternate;
+      }
+    }
+
+    .probe-sat {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 9px;
+      height: 9px;
+      margin: -4.5px 0 0 -4.5px;
+      border-radius: 50%;
+      background: #c4b5fd;
+      box-shadow: 0 0 14px rgba(196, 181, 253, 0.95), 0 0 4px rgba(34, 211, 238, 0.8);
+    }
+
+    .probe-sat:nth-child(1) {
+      transform: rotate(0deg) translateY(-58px);
+    }
+
+    .probe-sat:nth-child(2) {
+      transform: rotate(120deg) translateY(-58px);
+    }
+
+    .probe-sat:nth-child(3) {
+      transform: rotate(240deg) translateY(-58px);
+    }
+
+    .probe-body {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 82px;
+      height: 68px;
+      margin: -34px 0 0 -41px;
+      transform-origin: 50% 55%;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .probe-body {
+        animation: probeWobble 2.75s ease-in-out infinite;
+      }
+
+      .probe-fin-l {
+        animation: probeFinL 1.8s ease-in-out infinite alternate;
+      }
+
+      .probe-fin-r {
+        animation: probeFinR 1.8s ease-in-out infinite alternate;
+      }
+    }
+
+    .probe-fin {
+      position: absolute;
+      top: 22px;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      opacity: 0.92;
+      filter: drop-shadow(0 4px 8px rgba(79, 70, 229, 0.35));
+    }
+
+    .probe-fin-l {
+      left: -8px;
+      border-width: 9px 15px 9px 0;
+      border-color: transparent #818cf8 transparent transparent;
+      transform-origin: right center;
+    }
+
+    .probe-fin-r {
+      right: -8px;
+      border-width: 9px 0 9px 15px;
+      border-color: transparent transparent transparent #818cf8;
+      transform-origin: left center;
+    }
+
+    .probe-capsule {
+      position: absolute;
+      left: 50%;
+      top: 6px;
+      width: 72px;
+      height: 50px;
+      margin-left: -36px;
+      border-radius: 999px;
+      background: linear-gradient(165deg, #3730a3 0%, #1e1b4b 42%, #312e81 100%);
+      border: 1px solid rgba(165, 180, 252, 0.5);
+      box-shadow:
+        inset 0 -10px 22px rgba(0, 0, 0, 0.42),
+        inset 0 10px 18px rgba(99, 102, 241, 0.22),
+        0 12px 26px rgba(67, 56, 202, 0.38);
+      overflow: hidden;
+    }
+
+    body.light-theme .probe-capsule {
+      background: linear-gradient(165deg, #e0e7ff 0%, #c7d2fe 38%, #a5b4fc 100%);
+      border-color: rgba(79, 70, 229, 0.35);
+      box-shadow:
+        inset 0 -6px 14px rgba(255, 255, 255, 0.65),
+        inset 0 8px 14px rgba(99, 102, 241, 0.18),
+        0 12px 22px rgba(79, 70, 229, 0.18);
+    }
+
+    .probe-visor {
+      position: absolute;
+      left: 11px;
+      right: 11px;
+      top: 15px;
+      height: 15px;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #06b6d4, #a78bfa, #22d3ee, #c084fc);
+      background-size: 260% 100%;
+      background-position: 0% 50%;
+      opacity: 0.96;
+      box-shadow: 0 0 18px rgba(34, 211, 238, 0.55);
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .probe-visor {
+        animation: probeScan 2.4s linear infinite;
+      }
+    }
+
+    body.light-theme .probe-visor {
+      box-shadow: 0 0 12px rgba(14, 116, 144, 0.35);
+      opacity: 1;
+    }
+
+    .probe-grille {
+      position: absolute;
+      bottom: 11px;
+      left: 50%;
+      width: 38px;
+      height: 7px;
+      margin-left: -19px;
+      border-radius: 4px;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.18) 0 5px,
+        transparent 5px 10px
+      );
+      opacity: 0.65;
+    }
+
+    body.light-theme .probe-grille {
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(30, 41, 59, 0.22) 0 5px,
+        transparent 5px 10px
+      );
+      opacity: 0.85;
+    }
+
+    .probe-thrust {
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      width: 26px;
+      height: 18px;
+      margin-left: -13px;
+      border-radius: 0 0 50% 50%;
+      background: linear-gradient(180deg, rgba(251, 113, 133, 0.95), rgba(249, 168, 212, 0.15), transparent);
+      filter: blur(1.5px);
+      pointer-events: none;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .probe-thrust {
+        animation: probeJet 0.5s ease-in-out infinite alternate;
+      }
+    }
+
+    .mascot-hint {
+      margin: 0;
+      font-size: 0.82rem;
+      line-height: 1.45;
+      color: var(--muted);
+      text-align: center;
+      max-width: 22ch;
+    }
+
     h1 {
       position: relative;
-      z-index: 2;
+      z-index: 3;
       margin: 0;
       font-size: clamp(2rem, 4.8vw, 3.4rem);
       line-height: 1;
@@ -219,9 +522,15 @@
       text-shadow: 0 6px 20px rgba(53, 208, 255, 0.2);
     }
 
+    @media (prefers-reduced-motion: no-preference) {
+      h1 {
+        animation: titleGlow 4s ease-in-out infinite alternate;
+      }
+    }
+
     .lead {
       position: relative;
-      z-index: 2;
+      z-index: 3;
       margin: 14px 0 0;
       max-width: 70ch;
       color: var(--muted);
@@ -231,7 +540,7 @@
 
     .project-grid {
       position: relative;
-      z-index: 2;
+      z-index: 3;
       perspective: 1200px;
       margin-top: 28px;
       display: grid;
@@ -242,6 +551,7 @@
     .project-card {
       --spark-x: 50%;
       --spark-y: 50%;
+      position: relative;
       border: 1px solid var(--line);
       border-radius: 16px;
       padding: 18px;
@@ -255,6 +565,54 @@
       box-shadow: 0 16px 26px rgba(0, 0, 0, 0.2);
       animation: cardReveal 0.7s ease both;
       overflow: hidden;
+      isolation: isolate;
+    }
+
+    .project-card > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .project-card {
+        animation:
+          cardReveal 0.7s ease both,
+          cardPulseGlow 3.6s ease-in-out infinite;
+      }
+
+      .project-card:nth-child(2) {
+        animation-delay: 0ms, -1.2s;
+      }
+
+      .project-card:nth-child(3) {
+        animation-delay: 0ms, -2.1s;
+      }
+
+      .project-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        background: linear-gradient(
+          115deg,
+          transparent 38%,
+          rgba(255, 255, 255, 0.06) 48%,
+          rgba(255, 255, 255, 0.18) 50%,
+          rgba(255, 255, 255, 0.06) 52%,
+          transparent 62%
+        );
+        transform: translateX(-120%) skewX(-14deg);
+        animation: cardShimmerSlide 3.8s ease-in-out infinite;
+      }
+
+      .project-card:nth-child(2)::before {
+        animation-delay: -1.6s;
+      }
+
+      .project-card:nth-child(3)::before {
+        animation-delay: -2.8s;
+      }
     }
 
     body.light-theme .project-card {
@@ -270,6 +628,7 @@
       inset: -30% auto auto -40%;
       width: 140%;
       height: 110%;
+      z-index: 1;
       pointer-events: none;
       background: linear-gradient(110deg, transparent 28%, rgba(255, 255, 255, 0.14) 50%, transparent 72%);
       transform: translateX(-55%) rotate(7deg);
@@ -312,22 +671,24 @@
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .project-card a:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 15px 28px rgba(255, 143, 61, 0.35);
+    @media (prefers-reduced-motion: no-preference) {
+      .project-card a {
+        animation: btnPulseGlow 2.2s ease-in-out infinite;
+      }
+
+      .project-card:nth-child(2) a {
+        animation-delay: -0.9s;
+      }
+
+      .project-card:nth-child(3) a {
+        animation-delay: -1.7s;
+      }
     }
 
-    .tag {
-      width: fit-content;
-      font-family: "IBM Plex Mono", monospace;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-size: 0.72rem;
-      color: var(--accent-2);
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 4px 10px;
-      background: rgba(255, 255, 255, 0.04);
+    .project-card a:hover {
+      transform: translateY(-1px) scale(1.03);
+      box-shadow: 0 15px 28px rgba(255, 143, 61, 0.35), 0 0 24px rgba(255, 178, 95, 0.45);
+      animation-play-state: paused;
     }
 
     @keyframes cardReveal {
@@ -342,6 +703,181 @@
       }
     }
 
+    @keyframes ambientGlow {
+      from {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+
+      to {
+        opacity: 0.82;
+        transform: translate3d(0, -10px, 0);
+      }
+    }
+
+    @keyframes cardPulseGlow {
+      0%,
+      100% {
+        box-shadow: 0 16px 26px rgba(0, 0, 0, 0.2);
+        border-color: var(--line);
+      }
+
+      50% {
+        box-shadow: 0 20px 38px rgba(0, 0, 0, 0.26), 0 0 40px rgba(53, 208, 255, 0.14);
+        border-color: rgba(53, 208, 255, 0.32);
+      }
+    }
+
+    @keyframes cardShimmerSlide {
+      0% {
+        transform: translateX(-130%) skewX(-14deg);
+      }
+
+      100% {
+        transform: translateX(130%) skewX(-14deg);
+      }
+    }
+
+    @keyframes btnPulseGlow {
+      0%,
+      100% {
+        box-shadow: 0 12px 28px rgba(255, 143, 61, 0.28);
+      }
+
+      50% {
+        box-shadow: 0 14px 34px rgba(255, 143, 61, 0.42), 0 0 26px rgba(255, 178, 95, 0.38);
+      }
+    }
+
+    @keyframes titleGlow {
+      from {
+        text-shadow: 0 6px 20px rgba(53, 208, 255, 0.2);
+      }
+
+      to {
+        text-shadow: 0 8px 30px rgba(53, 208, 255, 0.38), 0 0 42px rgba(53, 208, 255, 0.15);
+      }
+    }
+
+    @keyframes probeOrbit {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes probeRingPulse {
+      from {
+        opacity: 0.65;
+        transform: scale(0.98);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes probeWobble {
+      0%,
+      100% {
+        transform: rotate(-6deg) translateY(0);
+      }
+
+      50% {
+        transform: rotate(6deg) translateY(-4px);
+      }
+    }
+
+    @keyframes probeFinL {
+      from {
+        transform: rotate(-6deg);
+      }
+
+      to {
+        transform: rotate(10deg);
+      }
+    }
+
+    @keyframes probeFinR {
+      from {
+        transform: rotate(6deg);
+      }
+
+      to {
+        transform: rotate(-10deg);
+      }
+    }
+
+    @keyframes probeScan {
+      to {
+        background-position: 100% 50%;
+      }
+    }
+
+    @keyframes probeJet {
+      from {
+        opacity: 0.55;
+        transform: scaleY(0.75);
+      }
+
+      to {
+        opacity: 1;
+        transform: scaleY(1.18);
+      }
+    }
+
+    @keyframes probeNudge {
+      0%,
+      100% {
+        transform: translateY(-3px) scale(1.02);
+      }
+
+      35% {
+        transform: translateY(4px) scale(0.93) rotate(-3deg);
+      }
+
+      65% {
+        transform: translateY(-4px) scale(1.05) rotate(3deg);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .shell::before {
+        animation: none;
+      }
+
+      .probe-satellites,
+      .probe-ring,
+      .probe-body,
+      .probe-fin-l,
+      .probe-fin-r,
+      .probe-visor,
+      .probe-thrust {
+        animation: none;
+      }
+
+      .mascot-bot.is-tap {
+        animation: none;
+      }
+
+      h1 {
+        animation: none;
+      }
+
+      .project-card {
+        animation: cardReveal 0.45s ease both;
+      }
+
+      .project-card::before {
+        animation: none;
+        opacity: 0;
+      }
+
+      .project-card a {
+        animation: none;
+      }
+    }
+
     @media (max-width: 640px) {
       body {
         padding: 14px;
@@ -351,6 +887,35 @@
         padding-top: 72px;
       }
 
+      .page {
+        min-height: auto;
+        place-items: start;
+      }
+
+      .hero-row {
+        grid-template-columns: 1fr;
+        justify-items: center;
+        text-align: center;
+      }
+
+      .hero-copy {
+        text-align: center;
+      }
+
+      .lead {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .mascot-column {
+        width: 100%;
+        max-width: 280px;
+      }
+
+      .mascot-hint {
+        max-width: 36ch;
+      }
+
       .project-card a {
         width: 100%;
       }
@@ -358,33 +923,65 @@
   </style>
 </head>
 <body>
-  <main class="shell">
-    <button id="themeToggle" class="theme-toggle" type="button" aria-label="Alternar tema claro e escuro" title="Alternar tema claro e escuro">
-      <span id="themeIcon">☀️</span>
-    </button>
+  <div class="page">
+    <main class="shell">
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Alternar tema claro e escuro" title="Alternar tema claro e escuro">
+        <span id="themeIcon">☀️</span>
+      </button>
 
-    <div class="top-nav">
-      <a class="back-link" href="../index.html">Voltar para a tela de apresentação</a>
-    </div>
+      <div class="top-nav">
+        <a class="back-link" href="../index.html">Voltar para a tela de apresentação</a>
+      </div>
 
-    <h1>Projetos</h1>
-    <p class="lead">Escolha qual atividade você quer visualizar. Ao terminar, volte para esta tela e troque para outro projeto sem sair do fluxo.</p>
+      <div class="hero-row">
+        <div class="hero-copy">
+          <h1>Projetos</h1>
+          <p class="lead">Escolha qual atividade você quer visualizar. Ao terminar, volte para esta tela e troque para outro projeto sem sair do fluxo.</p>
+        </div>
+        <div class="mascot-column">
+          <button type="button" class="mascot-bot" id="mascotBot" aria-label="Sonda animada: clique para ver uma dica sobre os projetos">
+            <span class="probe-stage" aria-hidden="true">
+              <span class="probe-ring" aria-hidden="true"></span>
+              <span class="probe-satellites" aria-hidden="true">
+                <span class="probe-sat"></span>
+                <span class="probe-sat"></span>
+                <span class="probe-sat"></span>
+              </span>
+              <span class="probe-body" aria-hidden="true">
+                <span class="probe-fin probe-fin-l"></span>
+                <span class="probe-fin probe-fin-r"></span>
+                <span class="probe-capsule">
+                  <span class="probe-visor"></span>
+                  <span class="probe-grille"></span>
+                </span>
+                <span class="probe-thrust"></span>
+              </span>
+            </span>
+          </button>
+          <p id="mascotHint" class="mascot-hint" role="status" aria-live="polite">Clique na sonda para dicas sobre qual projeto abrir!</p>
+        </div>
+      </div>
 
-    <section class="project-grid" aria-label="Lista de projetos">
-      <article class="project-card">
-        <span class="tag">Projeto 1</span>
-        <h2>Aplicativo de Cálculos</h2>
-        <p>Calculadoras de juros, equações, funções, inequações, conjuntos e domínio/imagem com histórico e gráficos.</p>
-        <a href="./Aplicativo%20com%20c%C3%A1lculos%20do%20Winston/index.html">Abrir aplicativo</a>
-      </article>
+      <section class="project-grid" aria-label="Lista de projetos">
+        <article class="project-card">
+          <h2>Aplicativo de Cálculos</h2>
+          <p>Calculadoras de juros, equações, funções, inequações, conjuntos e domínio/imagem com histórico e gráficos.</p>
+          <a href="./Aplicativo%20com%20c%C3%A1lculos%20do%20Winston/index.html">Abrir projeto</a>
+        </article>
 
-      <article class="project-card">
-        <span class="tag">Projeto 2</span>
-        <h2>Casos da Aula</h2>
-        <p>Analisador de funções quadráticas com casos práticos, histórico e foco em receita e lucro.</p>
-        <a href="./Casos%20da%20aula/index.html">Abrir casos da aula</a>
-      </article>
-    </section>
-  </main>
+        <article class="project-card">
+          <h2>Casos da Aula</h2>
+          <p>Analisador de funções quadráticas com casos práticos, histórico e foco em receita e lucro.</p>
+          <a href="./Casos%20da%20aula/index.html">Abrir projeto</a>
+        </article>
+
+        <article class="project-card">
+          <h2>Resolução de questões</h2>
+          <p>Assistente de Matemática aplicada para logística e matemática financeira, com sugestões guiadas e conferência de cálculos.</p>
+          <a href="./Resolu%C3%A7%C3%A3o%20de%20quest%C3%B5es/index.html">Abrir projeto</a>
+        </article>
+      </section>
+    </main>
+  </div>
 </body>
 </html>

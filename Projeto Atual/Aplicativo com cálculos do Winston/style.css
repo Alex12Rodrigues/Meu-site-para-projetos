@@ -154,21 +154,12 @@ body {
   margin: 0;
   min-height: 100vh;
   font-family: "Space Grotesk", "Segoe UI", sans-serif;
-  zoom: 0.8;
   color: var(--ink);
   background:
     radial-gradient(circle at 8% 12%, rgba(255, 122, 48, 0.16), transparent 38%),
     radial-gradient(circle at 92% 88%, rgba(0, 159, 183, 0.14), transparent 42%),
     linear-gradient(155deg, var(--bg-1), var(--bg-2));
   padding: 28px 14px;
-}
-
-@supports not (zoom: 1) {
-  body {
-    transform: scale(0.8);
-    transform-origin: top left;
-    width: 125%;
-  }
 }
 
 .app-shell {

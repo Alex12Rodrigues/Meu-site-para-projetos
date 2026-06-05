@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="expires" content="0">
+  <title>Resolução de questões | Matemática aplicada</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script src="./script.js" defer></script>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="hero-card" aria-labelledby="hero-title">
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Alternar tema claro e escuro" title="Alternar tema claro e escuro">
+        <span id="themeIcon">☀️</span>
+      </button>
+
+      <div class="hero-copy">
+        <p class="eyebrow">Matemática aplicada para cursos específicos</p>
+        <h1 id="hero-title">Resolução de questões</h1>
+        <p class="lead">
+          Um assistente para conferir cálculos e orientar a resolução de problemas de Logística e Matemática Financeira.
+          A interface sugere fórmulas, organiza os dados e mostra o caminho mais provável para a resposta.
+        </p>
+
+        <div class="hero-actions">
+          <a class="primary-button" href="#workspace">Começar análise</a>
+          <a class="secondary-button" href="../index.html">Voltar ao seletor</a>
+        </div>
+      </div>
+
+      <div class="hero-panel" aria-hidden="true">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="solver-card">
+          <span class="solver-tag">Sugestões guiadas</span>
+          <strong>Logística</strong>
+          <span>custo total, custo unitário e perdas</span>
+          <strong>Financeira</strong>
+          <span>juros simples, montante e taxa por período</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="workspace" class="workspace" aria-label="Área de trabalho do aplicativo">
+      <div class="app-frame">
+        <div class="app-topbar">
+          <div>
+            <p class="app-kicker">Escolha uma tela</p>
+            <h2 class="app-title">Organizado por tema e etapa</h2>
+          </div>
+
+          <div class="screen-tabs" role="tablist" aria-label="Telas do aplicativo">
+            <button class="screen-tab is-active" type="button" data-screen="home" role="tab" aria-selected="true">Início</button>
+            <button class="screen-tab" type="button" data-screen="logistica" role="tab" aria-selected="false">Logística</button>
+            <button class="screen-tab" type="button" data-screen="financeira" role="tab" aria-selected="false">Financeira</button>
+            <button class="screen-tab" type="button" data-screen="sugestoes" role="tab" aria-selected="false">Sugestões</button>
+          </div>
+        </div>
+
+        <div class="screen-stack">
+          <section class="screen-panel is-active" data-screen="home">
+            <article class="panel dashboard-panel">
+              <div class="panel-header">
+                <p class="panel-step">Tela 1</p>
+                <h2>Comece pela orientação inicial</h2>
+              </div>
+
+              <div class="dashboard-grid">
+                <div class="dashboard-card">
+                  <h3>Como funciona</h3>
+                  <p>Escolha um tema, preencha apenas os campos necessários e siga para a tela de sugestões.</p>
+                </div>
+                <div class="dashboard-card">
+                  <h3>Temas disponíveis</h3>
+                  <p>Logística para conferência de custos e Matemática Financeira para juros e montante.</p>
+                </div>
+              </div>
+
+              <div class="action-row action-row-center">
+                <button class="primary-button screen-go" type="button" data-target-screen="logistica">Começar em Logística</button>
+                <button class="secondary-button screen-go" type="button" data-target-screen="financeira">Começar em Financeira</button>
+              </div>
+            </article>
+          </section>
+
+          <section class="screen-panel" data-screen="logistica" hidden>
+            <article class="panel theme-panel">
+              <div class="panel-header">
+                <p class="panel-step">Tela 2</p>
+                <h2>Logística</h2>
+              </div>
+
+              <p class="helper-text">Use esta tela para conferir custo total, custo unitário e perdas.</p>
+
+              <label class="field-block">
+                Questão ou enunciado
+                <textarea id="logQuestionInput" class="question-input" rows="6" placeholder="Ex.: uma transportadora comprou 240 itens por R$ 18 cada, com frete de R$ 120 e perdas de 3%."></textarea>
+              </label>
+
+              <div class="suggestion-label">Exemplos rápidos</div>
+              <div class="suggestion-row" aria-label="Exemplos de logística">
+                <button class="chip" type="button" data-example="logistica">Exemplo de logística</button>
+                <button class="chip" type="button" data-example="conferir">Quero só conferir um cálculo</button>
+              </div>
+
+              <div class="field-grid">
+                <label>
+                  Quantidade de itens
+                  <input id="logQuantity" type="number" min="0" step="1" placeholder="Ex.: 240">
+                </label>
+                <label>
+                  Custo unitário (R$)
+                  <input id="logUnitCost" type="number" min="0" step="0.01" placeholder="Ex.: 18,00">
+                </label>
+                <label>
+                  Frete ou taxa fixa (R$)
+                  <input id="logFreight" type="number" min="0" step="0.01" placeholder="Ex.: 120,00">
+                </label>
+                <label>
+                  Perdas ou avarias (%)
+                  <input id="logLoss" type="number" min="0" step="0.01" placeholder="Ex.: 3">
+                </label>
+              </div>
+
+              <div class="action-row action-row-center">
+                <button class="secondary-button screen-go" type="button" data-target-screen="home">Voltar</button>
+                <button id="analyzeLogButton" class="primary-button" type="button" data-area="logistica">Ver sugestões</button>
+              </div>
+            </article>
+          </section>
+
+          <section class="screen-panel" data-screen="financeira" hidden>
+            <article class="panel theme-panel">
+              <div class="panel-header">
+                <p class="panel-step">Tela 3</p>
+                <h2>Matemática Financeira</h2>
+              </div>
+
+              <p class="helper-text">Use esta tela para juros simples, juros compostos e montante final.</p>
+
+              <label class="field-block">
+                Questão ou enunciado
+                <textarea id="finQuestionInput" class="question-input" rows="6" placeholder="Ex.: um capital de R$ 2.500,00 foi aplicado a 2,5% ao mês por 6 meses."></textarea>
+              </label>
+
+              <div class="suggestion-label">Exemplos rápidos</div>
+              <div class="suggestion-row" aria-label="Exemplos financeiros">
+                <button class="chip" type="button" data-example="financeira">Exemplo financeira</button>
+                <button class="chip" type="button" data-example="juros">Quero conferir juros</button>
+              </div>
+
+              <div class="field-grid">
+                <label>
+                  Capital inicial (R$)
+                  <input id="finCapital" type="number" min="0" step="0.01" placeholder="Ex.: 2500,00">
+                </label>
+                <label>
+                  Taxa ao período (%)
+                  <input id="finRate" type="number" min="0" step="0.01" placeholder="Ex.: 2,5">
+                </label>
+                <label>
+                  Número de períodos
+                  <input id="finPeriods" type="number" min="0" step="1" placeholder="Ex.: 6">
+                </label>
+                <label>
+                  Regime de cálculo
+                  <select id="finMode">
+                    <option value="simple">Juros simples</option>
+                    <option value="compound">Juros compostos</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="action-row action-row-center">
+                <button class="secondary-button screen-go" type="button" data-target-screen="home">Voltar</button>
+                <button id="analyzeFinButton" class="primary-button" type="button" data-area="financeira">Ver sugestões</button>
+              </div>
+            </article>
+          </section>
+
+          <section class="screen-panel" data-screen="sugestoes" hidden>
+            <article class="panel result-panel" aria-live="polite">
+              <div class="panel-header">
+                <p class="panel-step">Tela 4</p>
+                <h2>Sugestões e resultado</h2>
+              </div>
+
+              <div class="result-card result-main">
+                <span class="result-label">Área sugerida</span>
+                <strong id="detectedArea">Logística</strong>
+                <p id="mainSuggestion">Escolha uma tela e preencha os dados para gerar sugestões.</p>
+              </div>
+
+              <div class="result-grid">
+                <div class="result-card">
+                  <span class="result-label">Fórmula principal</span>
+                  <strong id="formulaHint">Custo total = custo variável + frete + perdas</strong>
+                </div>
+                <div class="result-card">
+                  <span class="result-label">Resposta calculada</span>
+                  <strong id="calculationResult">Aguardando dados</strong>
+                </div>
+              </div>
+
+              <div class="tips-box">
+                <p class="tips-title">Sugestões automáticas</p>
+                <ul id="tipsList" class="tips-list">
+                  <li>Verifique as unidades antes de calcular.</li>
+                  <li>Se a questão falar em taxa, confira o período da taxa.</li>
+                  <li>Use a área correta para obter uma fórmula mais útil.</li>
+                </ul>
+              </div>
+
+              <div class="action-row action-row-center">
+                <button class="secondary-button screen-go" type="button" data-target-screen="logistica">Voltar para Logística</button>
+                <button class="secondary-button screen-go" type="button" data-target-screen="financeira">Voltar para Financeira</button>
+                <button id="restartBtn" class="primary-button" type="button">Nova análise</button>
+              </div>
+            </article>
+          </section>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

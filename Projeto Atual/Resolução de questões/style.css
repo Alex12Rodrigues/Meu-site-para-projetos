@@ -1,0 +1,712 @@
+:root {
+  color-scheme: light dark;
+  --bg-1: #09111f;
+  --bg-2: #121a2f;
+  --card-1: rgba(18, 26, 46, 0.95);
+  --card-2: rgba(12, 18, 32, 0.95);
+  --ink: #eef4ff;
+  --muted: #b7c1d8;
+  --accent: #ff9b42;
+  --accent-2: #35d0ff;
+  --line: rgba(255, 255, 255, 0.12);
+  --shadow: 0 28px 72px rgba(0, 0, 0, 0.36);
+}
+
+body.light-theme {
+  --bg-1: #eef6ff;
+  --bg-2: #fff2e7;
+  --card-1: rgba(255, 255, 255, 0.98);
+  --card-2: rgba(242, 248, 255, 0.98);
+  --ink: #0d1a34;
+  --muted: #42506b;
+  --accent: #ff8e3d;
+  --accent-2: #0b79b1;
+  --line: rgba(13, 26, 52, 0.14);
+  --shadow: 0 24px 60px rgba(20, 49, 88, 0.18);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Space Grotesk", "Segoe UI", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at top left, rgba(53, 208, 255, 0.18), transparent 28%),
+    radial-gradient(circle at 88% 12%, rgba(255, 155, 66, 0.2), transparent 24%),
+    linear-gradient(155deg, var(--bg-1), var(--bg-2));
+  padding: 24px;
+}
+
+body.light-theme {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(57, 144, 255, 0.18), transparent 34%),
+    radial-gradient(circle at 88% 12%, rgba(255, 175, 104, 0.2), transparent 30%),
+    linear-gradient(150deg, var(--bg-1), var(--bg-2));
+}
+
+.page-shell {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 20px;
+}
+
+.hero-card,
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: linear-gradient(180deg, var(--card-1), var(--card-2));
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-card {
+  padding: clamp(24px, 4vw, 42px);
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(260px, 0.8fr);
+  gap: 28px;
+  align-items: center;
+}
+
+.hero-card::before,
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 16% 12%, rgba(53, 208, 255, 0.12), transparent 22%),
+    radial-gradient(circle at 84% 10%, rgba(255, 155, 66, 0.16), transparent 20%);
+}
+
+.hero-copy,
+.workspace {
+  position: relative;
+  z-index: 1;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 2;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--ink);
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+body.light-theme .theme-toggle {
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 8px 20px rgba(15, 41, 78, 0.16);
+}
+
+.eyebrow,
+.panel-step,
+.result-label,
+.solver-tag,
+.tips-title {
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.eyebrow,
+.panel-step {
+  margin: 0 0 12px;
+  color: var(--accent-2);
+  font-size: 0.76rem;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 14px;
+  font-size: clamp(2.4rem, 5vw, 4.5rem);
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+}
+
+h2 {
+  margin-bottom: 0;
+  font-size: 1.22rem;
+  letter-spacing: -0.03em;
+}
+
+.lead,
+.helper-text,
+.result-card p,
+.tips-list {
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.lead {
+  max-width: 62ch;
+  font-size: 1.05rem;
+}
+
+.hero-actions,
+.action-row,
+.suggestion-row,
+.area-switch {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hero-actions {
+  margin-top: 24px;
+}
+
+.primary-button,
+.secondary-button,
+.chip,
+.area-button {
+  border: 0;
+  border-radius: 999px;
+  min-height: 46px;
+  padding: 0 18px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.primary-button {
+  color: #111827;
+  background: linear-gradient(120deg, #ffb25f, #ff8f3d);
+  box-shadow: 0 12px 28px rgba(255, 143, 61, 0.28);
+}
+
+.secondary-button,
+.chip,
+.area-button {
+  color: var(--ink);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--line);
+}
+
+.primary-button:hover,
+.secondary-button:hover,
+.chip:hover,
+.area-button:hover {
+  transform: translateY(-1px);
+}
+
+.hero-panel {
+  min-height: 260px;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.orbit {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px dashed rgba(53, 208, 255, 0.3);
+}
+
+.orbit-one {
+  width: 230px;
+  height: 230px;
+}
+
+.orbit-two {
+  width: 166px;
+  height: 166px;
+}
+
+.solver-card {
+  width: min(280px, 100%);
+  padding: 22px;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+  display: grid;
+  gap: 8px;
+  box-shadow: 0 20px 38px rgba(0, 0, 0, 0.18);
+}
+
+.solver-card strong {
+  margin-top: 8px;
+  font-size: 1.02rem;
+}
+
+.workspace {
+  display: block;
+}
+
+.app-frame {
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: linear-gradient(180deg, var(--card-1), var(--card-2));
+  box-shadow: var(--shadow);
+  padding: clamp(18px, 3vw, 28px);
+  position: relative;
+  overflow: hidden;
+}
+
+.app-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 16% 12%, rgba(53, 208, 255, 0.12), transparent 22%),
+    radial-gradient(circle at 84% 10%, rgba(255, 155, 66, 0.16), transparent 20%);
+}
+
+.app-topbar,
+.screen-stack {
+  position: relative;
+  z-index: 1;
+}
+
+.app-topbar {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.app-kicker {
+  margin: 0 0 8px;
+  color: var(--accent-2);
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+}
+
+.app-title {
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  margin: 0;
+}
+
+.screen-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.screen-tab {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  min-height: 46px;
+  padding: 0 18px;
+  font: inherit;
+  font-weight: 700;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+}
+
+.screen-tab.is-active {
+  color: #111827;
+  background: linear-gradient(120deg, #ffb25f, #ff8f3d);
+  box-shadow: 0 12px 28px rgba(255, 143, 61, 0.28);
+}
+
+.screen-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.screen-panel[hidden] {
+  display: none !important;
+}
+
+.screen-panel {
+  animation: fadeUp 0.35s ease both;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.dashboard-card {
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 18px;
+}
+
+.dashboard-card h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.field-block {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.screen-go {
+  min-width: 180px;
+}
+
+/* Keep the old suggestion styling but make it centered and spacious */
+.suggestion-row {
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.suggestion-label {
+  text-align: center;
+  color: var(--accent-2);
+  font-family: "IBM Plex Mono", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin-bottom: 8px;
+  font-size: 0.72rem;
+}
+.chip,
+.area-button {
+  flex: 0 1 auto;
+  min-width: 140px;
+}
+
+.panel {
+  z-index: 2;
+}
+
+.panel {
+  padding: clamp(20px, 3vw, 30px);
+}
+
+.panel-header {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 18px;
+}
+
+.question-input,
+input,
+select {
+  width: 100%;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--ink);
+  font: inherit;
+  padding: 14px 16px;
+}
+
+/* Make the input area visually centered and slightly narrower for focus */
+.question-panel .question-input {
+  max-width: 840px;
+  margin: 0 auto 18px auto;
+}
+
+.question-input {
+  resize: vertical;
+  min-height: 190px;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.field-grid label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.field-grid label + label {
+  margin-top: 0;
+}
+
+.is-hidden {
+  display: none;
+}
+
+.suggestion-row,
+.area-switch {
+  margin-top: 16px;
+}
+
+.area-button.is-active {
+  border-color: var(--accent-2);
+  box-shadow: 0 0 0 1px rgba(53, 208, 255, 0.18) inset;
+}
+
+.helper-text {
+  margin-bottom: 0;
+  font-size: 0.94rem;
+}
+
+.result-panel {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+/* More distinct action row layout */
+.action-row {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.result-grid {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1fr;
+}
+
+.result-card,
+.tips-box {
+  position: relative;
+  z-index: 1;
+  border-radius: 22px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 18px;
+}
+
+.result-main {
+  display: grid;
+  gap: 8px;
+}
+
+.result-main strong,
+.result-card strong {
+  font-size: 1.12rem;
+}
+
+.result-label {
+  color: var(--accent-2);
+  font-size: 0.73rem;
+}
+
+.tips-box {
+  display: grid;
+  gap: 12px;
+}
+
+.tips-title {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.74rem;
+}
+
+.tips-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.tips-list li + li {
+  margin-top: 8px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-card,
+  .panel,
+  .solver-card {
+    animation: fadeUp 0.7s ease both;
+  }
+
+  .orbit-one {
+    animation: spin 18s linear infinite;
+  }
+
+  .orbit-two {
+    animation: spinReverse 14s linear infinite;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinReverse {
+  from {
+    transform: rotate(360deg);
+  }
+
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@media (max-width: 1080px) {
+  .hero-card,
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-panel {
+    min-height: 220px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  body {
+    padding: 10px;
+  }
+
+  .hero-card,
+  .panel {
+    border-radius: 18px;
+  }
+
+  .hero-card {
+    gap: 18px;
+    padding: 16px;
+  }
+
+  .hero-panel {
+    display: none;
+  }
+
+  .panel {
+    padding: 16px;
+  }
+
+  .app-frame {
+    padding: 16px;
+    border-radius: 20px;
+  }
+
+  .screen-tabs {
+    gap: 8px;
+  }
+
+  .screen-tab,
+  .screen-go {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .solver-card {
+    width: 100%;
+    max-width: 280px;
+    padding: 18px;
+  }
+
+  h1 {
+    margin-bottom: 10px;
+    font-size: clamp(2rem, 11vw, 2.8rem);
+  }
+
+  .lead {
+    font-size: 1rem;
+  }
+
+  .hero-actions {
+    margin-top: 16px;
+  }
+
+  .hero-actions,
+  .action-row,
+  .suggestion-row,
+  .area-switch {
+    gap: 8px;
+  }
+
+  .chip,
+  .area-button,
+  .primary-button,
+  .secondary-button {
+    min-height: 44px;
+  }
+
+  .question-input {
+    min-height: 140px;
+  }
+
+  .field-grid {
+    gap: 10px;
+  }
+
+  .field-grid label {
+    gap: 6px;
+  }
+
+  .result-grid {
+    gap: 10px;
+  }
+
+  .result-card,
+  .tips-box {
+    padding: 14px;
+  }
+
+  .result-main strong,
+  .result-card strong {
+    font-size: 1.05rem;
+  }
+
+  .tips-list {
+    padding-left: 18px;
+  }
+
+  .field-grid,
+  .result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .primary-button,
+  .secondary-button,
+  .chip,
+  .area-button,
+  .screen-tab {
+    width: 100%;
+  }
+}

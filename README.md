@@ -6,10 +6,11 @@ Este diretório concentra os projetos disponíveis no seletor interno do site.
 
 O Projeto Atual foi organizado para crescer com facilidade: existe uma página de seleção e, dentro dela, cada projeto fica em sua própria pasta com arquivos isolados.
 
-Hoje o seletor aponta para dois projetos:
+Hoje o seletor aponta para três projetos:
 
 1. Aplicativo com cálculos do Winston
 2. Casos da aula
+3. Resolução de questões
 
 ## Estrutura
 
@@ -20,6 +21,9 @@ Hoje o seletor aponta para dois projetos:
 - [Casos da aula/index.html](Casos%20da%20aula/index.html): interface do projeto de casos da aula
 - [Casos da aula/style.css](Casos%20da%20aula/style.css): estilos do projeto de casos da aula
 - [Casos da aula/script.js](Casos%20da%20aula/script.js): lógica do projeto de casos da aula
+- [Resolução de questões/index.html](Resolu%C3%A7%C3%A3o%20de%20quest%C3%B5es/index.html): interface do projeto de resolução guiada
+- [Resolução de questões/style.css](Resolu%C3%A7%C3%A3o%20de%20quest%C3%B5es/style.css): estilos do projeto de resolução guiada
+- [Resolução de questões/script.js](Resolu%C3%A7%C3%A3o%20de%20quest%C3%B5es/script.js): lógica do projeto de resolução guiada
 
 ## Como acessar
 
