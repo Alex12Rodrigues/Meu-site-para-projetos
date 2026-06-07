@@ -1,42 +1,68 @@
-# Projeto Atual
+# Meu site de projetos
 
-Este diretório concentra os projetos disponíveis no seletor interno do site.
+Portfólio estático para centralizar projetos da faculdade e apresentações em um único domínio.
 
 ## Visão geral
 
-O Projeto Atual foi organizado para crescer com facilidade: existe uma página de seleção e, dentro dela, cada projeto fica em sua própria pasta com arquivos isolados.
+O site é organizado em duas camadas:
 
-Hoje o seletor aponta para três projetos:
+1. **Página inicial** ([index.html](index.html)): apresentação e acesso ao hub de projetos.
+2. **Projeto Atual** ([Projeto Atual/index.html](Projeto%20Atual/index.html)): seletor interno com os aplicativos disponíveis.
 
-1. Aplicativo com cálculos do Winston
-2. Casos da aula
-3. Resolução de questões
+Cada aplicativo fica em pasta própria, com HTML, CSS e JavaScript isolados, para facilitar manutenção e evolução sem alterar os demais.
+
+## Projetos disponíveis
+
+### Aplicativo com cálculos do Winston
+
+Calculadoras de juros, equações, funções, inequações, conjuntos e domínio/imagem, com histórico e gráficos.
+
+- [Abrir projeto](Projeto%20Atual/Aplicativo%20com%20c%C3%A1lculos%20do%20Winston/index.html)
+
+### Casos da aula
+
+Analisador de funções quadráticas aplicadas a receita e lucro, com casos práticos, gráficos e histórico.
+
+- [Abrir projeto](Projeto%20Atual/Casos%20da%20aula/index.html)
+
+### Resolução de questões
+
+Assistente para Logística e Matemática Financeira, com conferência de cálculos, gráficos e sugestões guiadas.
+
+- [Abrir projeto](Projeto%20Atual/Resolu%C3%A7%C3%A3o%20de%20quest%C3%B5es/index.html)
+
+**Fluxo principal:**
+
+- Telas de **Logística** e **Financeira** com campos zerados na entrada, botão **Limpar campos** e modo **conferência** para validar cálculos existentes.
+- **Ver resultado**: gráfico e métricas do cálculo.
+- **Ver sugestões**: painel interativo com fórmula, passos, dicas e resumo visual.
+- **Histórico de Gráficos e Sugestões**: revisão de análises anteriores, com opção **Limpar histórico**.
 
 ## Estrutura
 
-- [index.html](index.html): página de seleção de projetos
-- [Aplicativo com cálculos do Winston/index.html](Aplicativo%20com%20cálculos%20do%20Winston/index.html): interface principal do app de cálculos
-- [Aplicativo com cálculos do Winston/style.css](Aplicativo%20com%20cálculos%20do%20Winston/style.css): estilos do app de cálculos
-- [Aplicativo com cálculos do Winston/script.js](Aplicativo%20com%20cálculos%20do%20Winston/script.js): lógica do app de cálculos
-- [Casos da aula/index.html](Casos%20da%20aula/index.html): interface do projeto de casos da aula
-- [Casos da aula/style.css](Casos%20da%20aula/style.css): estilos do projeto de casos da aula
-- [Casos da aula/script.js](Casos%20da%20aula/script.js): lógica do projeto de casos da aula
-- [Resolução de questões/index.html](Resolu%C3%A7%C3%A3o%20de%20quest%C3%B5es/index.html): interface do projeto de resolução guiada
-- [Resolução de questões/style.css](Resolu%C3%A7%C3%A3o%20de%20quest%C3%B5es/style.css): estilos do projeto de resolução guiada
-- [Resolução de questões/script.js](Resolu%C3%A7%C3%A3o%20de%20quest%C3%B5es/script.js): lógica do projeto de resolução guiada
+```
+index.html                          → tela de boas-vindas
+Projeto Atual/
+  index.html                        → seletor de projetos
+  Aplicativo com cálculos do Winston/
+  Casos da aula/
+  Resolução de questões/
+```
 
 ## Como acessar
 
-1. Abra [index.html](index.html) dentro desta pasta.
-2. Selecione o projeto desejado.
-3. Use os links de navegação para voltar ao seletor quando necessário.
+1. Abra [index.html](index.html) na raiz do repositório.
+2. Clique em **Selecionar projetos**.
+3. Escolha o aplicativo desejado no seletor.
+4. Use **Voltar para a seleção de projetos** para retornar ao hub interno.
 
 ## Tecnologias
 
 - HTML5
 - CSS3
-- JavaScript
-- localStorage para preferências e histórico, conforme cada projeto
+- JavaScript (vanilla)
+- Google Fonts
+- `localStorage` para tema compartilhado, preferências e histórico (conforme cada projeto)
 
 ## Objetivo da organização
 
