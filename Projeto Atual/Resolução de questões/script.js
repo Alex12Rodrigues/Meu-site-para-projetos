@@ -40,7 +40,7 @@
     dashboardAreaBadge: document.getElementById("dashboardAreaBadge"),
     dashboardResult: document.getElementById("dashboardResult"),
     dashboardSuggestion: document.getElementById("dashboardSuggestion"),
-    dashboardFormula: document.getElementById("dashboardFormula"),
+    dashboardDetailedResolution: document.getElementById("dashboardDetailedResolution"),
     confidenceFill: document.getElementById("confidenceFill"),
     confidenceLabel: document.getElementById("confidenceLabel"),
     stepsList: document.getElementById("stepsList"),
@@ -58,35 +58,45 @@
   };
 
   const examples = {
-    logistica: {
+    "logistica-positivo": {
       screen: "logistica",
-      question: "Uma transportadora comprou 240 itens por R$ 18,00 cada, com frete de R$ 120,00 e perdas de 3%. Como conferir o custo final?",
+      question: "Uma distribuidora comprou 500 unidades a R$ 12,00 cada, com frete de R$ 90,00 e nenhuma perda. Qual é o custo total e o custo por item?",
       fields: {
-        logQuantity: 240,
-        logUnitCost: 18,
-        logFreight: 120,
-        logLoss: 3,
+        logQuantity: 500,
+        logUnitCost: 12,
+        logFreight: 90,
+        logLoss: 0,
       },
     },
-    financeira: {
-      screen: "financeira",
-      question: "Um capital de R$ 2.500,00 foi aplicado a 2,5% ao mês por 6 meses. Qual é o montante no regime simples e no composto?",
+    "logistica-negativo": {
+      screen: "logistica",
+      question: "Um lote de 80 peças a R$ 45,00 cada teve frete de R$ 380,00 e 12% de perdas na entrega. Qual é o custo total e o custo por unidade?",
       fields: {
-        finCapital: 2500,
-        finRate: 2.5,
-        finPeriods: 6,
+        logQuantity: 80,
+        logUnitCost: 45,
+        logFreight: 380,
+        logLoss: 12,
+      },
+    },
+    "financeira-positivo": {
+      screen: "financeira",
+      question: "Um investimento de R$ 5.000,00 foi aplicado a 3,2% ao mês por 18 meses em juros compostos. Qual é o montante e os juros obtidos?",
+      fields: {
+        finCapital: 5000,
+        finRate: 3.2,
+        finPeriods: 18,
         finMode: "compound",
       },
     },
-    conferir: {
-      screen: "logistica",
-      question: "Preciso conferir um cálculo já pronto e quero saber qual fórmula usar e quais dados revisar primeiro.",
-      checkOnly: true,
-    },
-    juros: {
+    "financeira-negativo": {
       screen: "financeira",
-      question: "Quero conferir um cálculo de juros e entender se o resultado está correto.",
-      checkOnly: true,
+      question: "Uma aplicação de R$ 5.000,00 rendeu apenas 0,6% ao mês durante 18 meses em juros simples. Qual foi o montante final?",
+      fields: {
+        finCapital: 5000,
+        finRate: 0.6,
+        finPeriods: 18,
+        finMode: "simple",
+      },
     },
   };
 
@@ -231,6 +241,94 @@
     return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(value);
   }
 
+  function formatNumber(value, maxDecimals = 2) {
+    return value.toLocaleString("pt-BR", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: maxDecimals,
+    });
+  }
+
+  function buildLogisticsDetailHtml(values) {
+    const quantity = values.logQuantity;
+    const unitCost = values.logUnitCost;
+    const freight = values.logFreight;
+    const lossPct = values.logLoss;
+    const baseCost = quantity * unitCost;
+    const lossValue = baseCost * (lossPct / 100);
+    const total = baseCost + freight + lossValue;
+    const unitFinal = quantity > 0 ? total / quantity : 0;
+    const lossBlock = lossPct > 0
+      ? `<p class="detail-step">Perdas (${formatPercent(lossPct)} sobre o custo base) = ${formatCurrency(baseCost)} × ${formatNumber(lossPct / 100, 4)} = <strong>${formatCurrency(lossValue)}</strong></p>`
+      : `<p class="detail-step">Perdas = ${formatCurrency(0)}</p>`;
+
+    return `
+      <div class="detail-block">
+        <span class="detail-label">Fórmula aplicada</span>
+        <p class="detail-formula">Custo total = (quantidade × custo unitário) + frete + perdas</p>
+      </div>
+      <div class="detail-block">
+        <span class="detail-label">Substituindo os valores</span>
+        <p class="detail-step">Custo total = (${formatNumber(quantity, 0)} × ${formatCurrency(unitCost)}) + ${formatCurrency(freight)} + perdas</p>
+        ${lossBlock}
+      </div>
+      <div class="detail-block detail-block--full">
+        <span class="detail-label">Cálculo</span>
+        <p class="detail-step">Custo base = ${formatNumber(quantity, 0)} × ${formatCurrency(unitCost)} = <strong>${formatCurrency(baseCost)}</strong></p>
+        <p class="detail-step">Custo total = ${formatCurrency(baseCost)} + ${formatCurrency(freight)} + ${formatCurrency(lossValue)} = <strong>${formatCurrency(total)}</strong></p>
+      </div>
+      <div class="detail-block detail-block--full">
+        <span class="detail-label">Cálculo do custo por item</span>
+        <p class="detail-step">Custo por item = ${formatCurrency(total)} ÷ ${formatNumber(quantity, 0)} = <strong>${formatCurrency(unitFinal)}</strong></p>
+      </div>
+    `;
+  }
+
+  function buildFinanceDetailHtml(values) {
+    const capital = values.finCapital;
+    const ratePct = values.finRate;
+    const periods = values.finPeriods;
+    const mode = values.finMode;
+    const rate = ratePct / 100;
+    const amount = mode === "compound"
+      ? capital * Math.pow(1 + rate, periods)
+      : capital * (1 + rate * periods);
+    const interest = amount - capital;
+    const formula = mode === "compound" ? "M = C × (1 + i)^t" : "M = C × (1 + i × t)";
+    const substitution = mode === "compound"
+      ? `M = ${formatCurrency(capital)} × (1 + ${formatNumber(rate, 4)})^${formatNumber(periods, 0)}`
+      : `M = ${formatCurrency(capital)} × (1 + ${formatNumber(rate, 4)} × ${formatNumber(periods, 0)})`;
+    const growthFactor = mode === "compound"
+      ? `(1 + ${formatNumber(rate, 4)})^${formatNumber(periods, 0)} = ${formatNumber(Math.pow(1 + rate, periods), 4)}`
+      : `1 + (${formatNumber(rate, 4)} × ${formatNumber(periods, 0)}) = ${formatNumber(1 + rate * periods, 4)}`;
+
+    return `
+      <div class="detail-block">
+        <span class="detail-label">Fórmula aplicada</span>
+        <p class="detail-formula">${formula}</p>
+        <p class="detail-step">Regime: ${mode === "compound" ? "juros compostos" : "juros simples"}</p>
+      </div>
+      <div class="detail-block">
+        <span class="detail-label">Substituindo os valores</span>
+        <p class="detail-step">${substitution}</p>
+        <p class="detail-step">Taxa em decimal: i = ${formatPercent(ratePct)} ÷ 100 = ${formatNumber(rate, 4)}</p>
+      </div>
+      <div class="detail-block detail-block--full">
+        <span class="detail-label">Cálculo</span>
+        <p class="detail-step">Fator de crescimento: ${growthFactor}</p>
+        <p class="detail-step">Montante = ${formatCurrency(capital)} × ${formatNumber(mode === "compound" ? Math.pow(1 + rate, periods) : 1 + rate * periods, 4)} = <strong>${formatCurrency(amount)}</strong></p>
+        <p class="detail-step">Juros = Montante − Capital = ${formatCurrency(amount)} − ${formatCurrency(capital)} = <strong>${formatCurrency(interest)}</strong></p>
+      </div>
+    `;
+  }
+
+  function buildDetailedResolutionHtml(area, values) {
+    if (area === "financeira") {
+      return buildFinanceDetailHtml(values);
+    }
+
+    return buildLogisticsDetailHtml(values);
+  }
+
   function formatPercent(value) {
     return `${value.toLocaleString("pt-BR", { maximumFractionDigits: 2 })}%`;
   }
@@ -280,13 +378,14 @@
   }
 
   function svgHeader(width, height) {
-    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="100%" height="${height}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Gráfico do resultado" style="display:block; max-width:100%;">`;
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="100%" height="auto" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Gráfico do resultado" style="display:block; max-width:100%;">`;
   }
 
   function createBarChart(items, options = {}) {
     const palette = getChartPalette();
     const width = options.width || 760;
     const height = options.height || 320;
+    const minBarHeight = options.minBarHeight || 0;
     const paddingLeft = 72;
     const paddingRight = 28;
     const paddingTop = 28;
@@ -310,13 +409,15 @@
     svg += `<line x1="${paddingLeft}" y1="${height - paddingBottom}" x2="${width - paddingRight}" y2="${height - paddingBottom}" stroke="${palette.axis}" stroke-width="2" />`;
 
     items.forEach((item, index) => {
-      const barHeight = (item.value / maxValue) * graphHeight;
+      const scaledHeight = (item.value / maxValue) * graphHeight;
+      const barHeight = item.value > 0 ? Math.max(scaledHeight, minBarHeight) : 0;
       const x = paddingLeft + gap * index + (gap - barWidth) / 2;
       const y = height - paddingBottom - barHeight;
       const color = item.color || [palette.barA, palette.barB, palette.barC][index % 3];
-      svg += `<rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" rx="10" fill="${color}" opacity="0.92" />`;
+      const rx = barHeight > 0 ? Math.min(6, barWidth / 2, barHeight / 2) : 0;
+      svg += `<rect x="${x}" y="${y}" width="${barWidth}" height="${barHeight}" rx="${rx}" fill="${color}" opacity="0.92" />`;
       svg += `<text x="${x + barWidth / 2}" y="${height - 24}" text-anchor="middle" font-size="11" fill="${palette.label}">${item.label}</text>`;
-      svg += `<text x="${x + barWidth / 2}" y="${y - 8}" text-anchor="middle" font-size="11" fill="${palette.label}">${formatCurrency(item.value)}</text>`;
+      svg += `<text x="${x + barWidth / 2}" y="${Math.max(paddingTop + 12, y - 8)}" text-anchor="middle" font-size="11" fill="${palette.label}">${formatCurrency(item.value)}</text>`;
     });
 
     svg += "</svg>";
@@ -454,6 +555,7 @@
       updatedAt: new Date().toISOString(),
       chartHtml: result.chartHtml || history[index].chartHtml,
       miniChartHtml: result.miniChartHtml || history[index].miniChartHtml,
+      detailedResolutionHtml: result.detailedResolutionHtml || history[index].detailedResolutionHtml,
       metrics: (result.metrics && result.metrics.length) ? result.metrics : history[index].metrics,
       fieldSnapshot: result.fieldSnapshot || history[index].fieldSnapshot,
       hasResult: Boolean(result.chartHtml || history[index].chartHtml),
@@ -490,7 +592,8 @@
   }
 
   function hydrateHistoryEntry(entry) {
-    if (entry.chartHtml) {
+    const hasCharts = entry.chartHtml && entry.miniChartHtml;
+    if (hasCharts) {
       return entry;
     }
 
@@ -803,7 +906,7 @@
       { label: "Base", value: baseCost },
       { label: "Frete", value: values.logFreight },
       { label: "Perdas", value: lossValue },
-    ], { title: "Resumo", width: 420, height: 180 });
+    ], { title: "Resumo", width: 420, height: 180, minBarHeight: 10 });
 
     return {
       area: "logistica",
@@ -819,6 +922,7 @@
       ],
       chartHtml,
       miniChartHtml,
+      detailedResolutionHtml: buildLogisticsDetailHtml(values),
     };
   }
 
@@ -852,6 +956,7 @@
       ],
       chartHtml,
       miniChartHtml,
+      detailedResolutionHtml: buildFinanceDetailHtml(values),
     };
   }
 
@@ -879,6 +984,7 @@
         metrics: [],
         chartHtml: "",
         miniChartHtml: "",
+        detailedResolutionHtml: `<div class="detail-block"><span class="detail-label">Fórmula de referência</span><p class="detail-formula">${checkBase.formula}</p><p class="detail-step">Preencha os valores numéricos para visualizar a resolução completa.</p></div>`,
       };
     }
 
@@ -937,8 +1043,9 @@
       elements.dashboardSuggestion.textContent = result.suggestionText;
     }
 
-    if (elements.dashboardFormula) {
-      elements.dashboardFormula.textContent = result.formulaText;
+    if (elements.dashboardDetailedResolution) {
+      elements.dashboardDetailedResolution.innerHTML = result.detailedResolutionHtml
+        || '<p class="detail-step">Preencha os dados para ver a resolução passo a passo.</p>';
     }
 
     if (elements.confidenceFill) {
@@ -1049,7 +1156,7 @@
     activeHistoryId = entry.id;
     lastSourceArea = hydrated.area;
 
-    if (hydrated.chartHtml && !entry.chartHtml) {
+    if ((hydrated.chartHtml && !entry.chartHtml) || (hydrated.miniChartHtml && !entry.miniChartHtml)) {
       updateHistoryEntry(entry.id, hydrated);
     }
 
@@ -1137,14 +1244,8 @@
     setScreen(example.screen);
     resetFormFields(example.screen);
     setQuestionText(example.screen, example.question);
-
-    if (example.checkOnly) {
-      setCheckOnlyMode(example.screen, true);
-    } else {
-      setCheckOnlyMode(example.screen, false);
-      fillFields(example.fields);
-    }
-
+    setCheckOnlyMode(example.screen, false);
+    fillFields(example.fields);
     preserveFormOnEnter = false;
   }
 

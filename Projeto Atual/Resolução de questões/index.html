@@ -218,7 +218,7 @@
 
                 Questão ou enunciado
 
-                <textarea id="logQuestionInput" class="question-input" rows="6" placeholder="Ex.: uma transportadora comprou 240 itens por R$ 18 cada, com frete de R$ 120 e perdas de 3%."></textarea>
+                <textarea id="logQuestionInput" class="question-input" rows="6" placeholder="Cole ou digite o enunciado da questão."></textarea>
 
               </label>
 
@@ -228,9 +228,9 @@
 
               <div class="suggestion-row" aria-label="Exemplos de logística">
 
-                <button class="chip" type="button" data-example="logistica">Exemplo de logística</button>
+                <button class="chip" type="button" data-example="logistica-positivo">Cenário positivo</button>
 
-                <button class="chip" type="button" data-example="conferir">Quero só conferir um cálculo</button>
+                <button class="chip" type="button" data-example="logistica-negativo">Cenário negativo</button>
 
               </div>
 
@@ -324,7 +324,7 @@
 
                 Questão ou enunciado
 
-                <textarea id="finQuestionInput" class="question-input" rows="6" placeholder="Ex.: um capital de R$ 2.500,00 foi aplicado a 2,5% ao mês por 6 meses."></textarea>
+                <textarea id="finQuestionInput" class="question-input" rows="6" placeholder="Cole ou digite o enunciado da questão."></textarea>
 
               </label>
 
@@ -334,9 +334,9 @@
 
               <div class="suggestion-row" aria-label="Exemplos financeiros">
 
-                <button class="chip" type="button" data-example="financeira">Exemplo financeira</button>
+                <button class="chip" type="button" data-example="financeira-positivo">Cenário positivo</button>
 
-                <button class="chip" type="button" data-example="juros">Quero conferir juros</button>
+                <button class="chip" type="button" data-example="financeira-negativo">Cenário negativo</button>
 
               </div>
 
@@ -502,35 +502,39 @@
 
               <div class="kpi-grid">
 
-                <article class="kpi-card kpi-main">
+                <div class="kpi-sidebar">
 
-                  <span class="kpi-label">Resultado calculado</span>
+                  <article class="kpi-card kpi-main">
 
-                  <strong id="dashboardResult" class="kpi-value">Aguardando dados</strong>
+                    <span class="kpi-label">Resultado calculado</span>
 
-                  <p id="dashboardSuggestion" class="kpi-note">Preencha os campos e clique em Ver sugestões.</p>
+                    <strong id="dashboardResult" class="kpi-value">Aguardando dados</strong>
 
-                </article>
+                    <p id="dashboardSuggestion" class="kpi-note">Preencha os campos e clique em Ver sugestões.</p>
 
-                <article class="kpi-card">
+                  </article>
 
-                  <span class="kpi-label">Fórmula principal</span>
+                  <article class="kpi-card kpi-confidence">
 
-                  <code id="dashboardFormula" class="formula-chip">—</code>
+                    <span class="kpi-label">Nível de confiança</span>
 
-                </article>
+                    <div class="confidence-track" aria-hidden="true">
 
-                <article class="kpi-card kpi-confidence">
+                      <span id="confidenceFill" class="confidence-fill"></span>
 
-                  <span class="kpi-label">Nível de confiança</span>
+                    </div>
 
-                  <div class="confidence-track" aria-hidden="true">
+                    <strong id="confidenceLabel" class="confidence-text">Aguardando</strong>
 
-                    <span id="confidenceFill" class="confidence-fill"></span>
+                  </article>
 
-                  </div>
+                </div>
 
-                  <strong id="confidenceLabel" class="confidence-text">Aguardando</strong>
+                <article class="kpi-card kpi-detail">
+
+                  <span class="kpi-label">Resolução detalhada</span>
+
+                  <div id="dashboardDetailedResolution" class="detailed-resolution">Preencha os dados para ver a resolução passo a passo.</div>
 
                 </article>
 
